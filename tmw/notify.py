@@ -11,7 +11,9 @@ smtp_config = {
         { 'name': 'server', 'type': unicode, 'default': 'localhost', },
         { 'name': 'port', 'type': int, 'default': 465, },
         { 'name': 'username', 'type': unicode, 'default': os.getlogin(), },
-        { 'name': 'password', 'type': unicode, 'default': None, 'hide_input': True, }
+        { 'name': 'password', 'type': unicode, 'default': None, 'hide_input': True, },
+        { 'name': 'recipients', 'type': unicode, 'default': None, },
+
     ]
 }
 notification_types = defaultdict(list)
@@ -20,6 +22,7 @@ for n in (smtp_config, ):
 
 # TODO this is just a sample from python code right now 
 
+'''
 # me == my email address
 # you == recipient's email address
 me = "my@email.com"
@@ -61,4 +64,4 @@ s = smtplib.SMTP('localhost')
 # and message to send - here it is sent as one string.
 s.sendmail(me, you, msg.as_string())
 s.quit()
-
+'''
