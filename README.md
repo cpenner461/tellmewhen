@@ -15,6 +15,8 @@ tmw
 
 The subcommand ``tmw serve`` will start the web server.
 
+If you want better errors from the server when things fail, use the command ``tmw debug``.
+
 
 ## Development
 
