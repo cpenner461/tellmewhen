@@ -1,6 +1,20 @@
+
+import json
+import os
+
 import click
-from server import app
+import keyring
+
 import core
+from notify import notification_types
+from server import app
+
+CFG_FILE = os.path.expanduser("~/.tellmewhen")
+KEYRING_SVC = "tellmewhen"
+
+def _config_exists():
+    """Verify if a config file exists"""
+    return os.path.exists(CFG_FILE)
 
 @click.group()
 def cli():
@@ -21,6 +35,10 @@ def cli():
 def tellme(url, check_type, check_value, frequency, num_checks):
     """Check a url to see if it matches"""
 
+    if not _config_exists():
+        click.secho('WARNING: No config file found, notifications will not be sent',
+                bg='yellow', fg='black')
+
     click.echo('Telling you if {0} has a {1} that matches {2}'.format(
         click.style(url, bg='blue', fg='white'), 
         click.style(check_type, bg='blue', fg='white'), 
@@ -36,6 +54,58 @@ def tellme(url, check_type, check_value, frequency, num_checks):
 
     except core.TMWCoreException, e:
         click.secho('ERROR: %s' % e.message, fg='red', bold=True)
+
+@cli.command()
+@click.option('--force', is_flag=True,
+    help='Force configuration (i.e. redo an existing one)')
+def configure_notifications(force):
+    """Configure notification settings (e.g. smtp/slack settings)"""
+
+    if os.path.exists(CFG_FILE):
+        if not force:
+            click.echo('Config already exists - try again with --force')
+            return
+        else:
+            click.echo('Replacing existing config')
+
+    click.secho('## Notification Configuration ##', bg='blue', fg='white', bold=True)
+
+    valid_types = notification_types.keys()
+    notification_type = None
+    while notification_type not in valid_types:
+
+        notification_type = click.prompt('Enter type of notification',
+            default=valid_types[0])
+        if notification_type not in valid_types:
+            click.secho('Invalid type, must be one of %s' % valid_types,
+                    bg='red', fg='white', bold=True)
+  
+    config = {}
+    keyring_config = {}
+    for f in notification_types[notification_type]['fields']:
+
+        value = click.prompt(
+                '  %s' % f['name'], 
+                type=f['type'], 
+                default=f['default'],
+                hide_input=f.get('hide_input', False),
+            )
+
+        if f.get('hide_input', False):
+            keyring_config[f['name']] = value
+            config[f['name']] = None
+        else:
+            config[f['name']] = value
+
+    if keyring_config:
+        click.echo('Saving sensitive data to keyring')
+        for k,v in keyring_config.iteritems():
+            keyring.set_password(KEYRING_SVC, k, v)
+
+    click.echo('Saving config file {0}'.format(CFG_FILE))
+    with open(CFG_FILE, 'w') as f:
+        f.write(json.dumps(config))
+
 
 @cli.command()
 def hello():

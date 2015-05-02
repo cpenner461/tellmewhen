@@ -8,10 +8,6 @@ app = Flask(__name__)
 def hello_world():
     return render_template('index.html')
 
-@app.route('/builder')
-def build():
-    return render_template('builder.html')
-
 @app.route('/tellme', methods = ['POST'])
 def tellme():
 
