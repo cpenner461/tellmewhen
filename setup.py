@@ -10,7 +10,7 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        tmw=tellmewhen:cli
+        tmw=tmw.cli:cli
     ''',
 )
 
