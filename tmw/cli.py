@@ -14,8 +14,12 @@ def cli():
         help='Type of check to perform')
 @click.option('--check_value', prompt='Check value',
         help='Expected value to alert on')
-def tellmeif(url, check_type, check_value):
-    """Check a url once to see if it matches"""
+@click.option('--frequency', default=10,
+        help='Frequency to check (in seconds)')
+@click.option('--num_checks', prompt='Number of checks:', 
+        help='How many times to check (0 is infinite)', default=1)
+def tellme(url, check_type, check_value, frequency, num_checks):
+    """Check a url to see if it matches"""
 
     click.echo('Telling you if {0} has a {1} that matches {2}'.format(
         click.style(url, bg='blue', fg='white'), 
@@ -23,7 +27,8 @@ def tellmeif(url, check_type, check_value):
         click.style(check_value, bg='blue', fg='white')))
 
     try:
-        check_results = core.check_once(url, check_type, check_value)
+        check_results = core.check_until(url, check_type, check_value,
+                frequency, num_checks)
         if check_results:
             click.secho('It does!', bg='green', fg='white')
         else:

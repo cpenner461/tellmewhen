@@ -1,5 +1,7 @@
 
 import logging
+import sys
+import time
 
 import requests
 
@@ -14,6 +16,27 @@ event_types = [
     'status_code', 
     'string_match',
 ]
+
+def check_until(url, check_type, check_value, frequency, num_checks):
+    """Check url until the specified condition is met"""
+
+    checks_done = 0
+    results = False
+
+    while (checks_done < num_checks or num_checks == 0) and not results:
+        results = check_once(url, check_type, check_value)
+
+        if results:
+            return results
+        sys.stdout.write('.')
+        sys.stdout.flush()
+        
+        checks_done += 1
+        time.sleep(frequency)
+
+    sys.stdout.write('\n')
+    sys.stdout.flush()
+    return results
 
 def check_once(url, check_type, check_value):
     """Check a url once"""
