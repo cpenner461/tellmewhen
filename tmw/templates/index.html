@@ -10,12 +10,6 @@
 
     <!-- Le styles -->
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-    </style>
     <link href="../static/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/font-awesome.min.css">
 
@@ -29,18 +23,18 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
-    <!--<link rel="shortcut icon" href="../assets/ico/favicon.png">-->
+    <link rel="shortcut icon" href="../assets/img/favicon.ico">
   </head>
 
   <body>
-
+  <header>
   <div class="container-fluid">
-    <div class="page-header">
-      <h1>Tell Me When</h1>
+    <div class="container">
+      <h1 class="logo">Tell Me When</h1>
     </div>
-    <div class="page-header">
-      <h2>Archive</h2>
-    </div>
+  </header>
+  <section>
+  <div class="container">
     <div role="tabpanel">
       <!-- Nav tabs -->
       <ul class="nav nav-tabs nav-justified" role="tablist">
@@ -66,7 +60,6 @@
                       <select name="check_type" class="form-control">
                         <option class="response-event" value="status_code">responds with</option>
                         <option class="response-string" value="string_match">shows</option>
-                        <option class="response-string" value="regex_match">matches</option>
                       </select>
                     </li>
                     <li class="response">
@@ -233,6 +226,12 @@
     <!-- /.tabpanel -->
   </div>
   <!-- /.container -->
+  </section>
+  <footer>
+    <div class="container">
+      <p>Tell Me When</p>
+    </div>
+  </footer>
 
   <!-- Le javascript
   ================================================== -->

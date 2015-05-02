@@ -1,4 +1,50 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700,800,300,600);
+
+/* Global */
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #F4F9FD;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: 400;
+}
+
+h2 {
+  font-size: 18px;
+}
+
+a {
+  color: #1F82DF;
+}
+
+header {
+  background-color: #1480E2;
+  padding-bottom: 15px;
+}
+
+section {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background-color: #FFF;
+}
+
+footer {
+  background-color: #F4F9FD;
+  padding-top: 20px;
+}
+
 /* Custom */
+
+.logo {
+  color: #FFF;
+  font-size: 24px;
+  font-weight: 300;
+  padding: 5px 0 5px 50px;
+  background: url(../img/logo.png) 0 0 no-repeat;
+  background-size: 40px 34px;
+}
 
 .success {
   color: #4CAF50;
@@ -9,13 +55,31 @@
 }
 
 .cancel {
-  color: #9E9E9E;
+  color: #FFA000;
 }
 
 /* Bootstrap Overrides */
+.table {
+  border-top: 0;
+}
+
+.panel {
+  border: none;
+  box-shadow: none;
+}
 
 .panel-heading {
   font-weight: bold;
+}
+
+.page-header {
+  border-bottom: none;
+  margin-top: 30px;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+  background-color: #E8F2FB;
+  color: #000;
 }
 
 /* Event builder statement */
