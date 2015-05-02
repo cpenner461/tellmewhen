@@ -16,7 +16,7 @@ def tellme():
     value = None
     if type == 'status_code':
         value = request.form.get('status_code')
-    elif type == 'string_match':
+    elif type == 'string_match' or type == 'regex_match':
         value = request.form.get('string_match')
 
     status = core.check_once(url, type, value)

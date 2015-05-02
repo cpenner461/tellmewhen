@@ -2,6 +2,7 @@
 import logging
 import sys
 import time
+import re
 
 import requests
 
@@ -15,6 +16,7 @@ class TMWCoreException(Exception):
 event_types = [
     'status_code', 
     'string_match',
+    'regex_match',
 ]
 
 def check_until(url, check_type, check_value, frequency, num_checks):
@@ -52,6 +54,8 @@ def check_once(url, check_type, check_value):
         return status_check(url, check_value)
     elif check_type == 'string_match':
         return string_check(url, check_value)
+    if check_type == 'regex_match':
+        return regex_check(url, check_value)
     else:
         raise TMWCoreException('Invalid check type')
 
@@ -75,6 +79,14 @@ def string_check(url, match_string):
             match_string
         )
 
+def regex_check(url, regex):
+    """Checks a url to see if it matches the regex
+    return True/False"""
+    return _check_matches(
+            _get_url(url),
+            regex
+        )
+
 def _get_url(url):
     """Get a url
     return the response object"""
@@ -94,4 +106,9 @@ def _check_contains(response, match_string):
     """
     return response.text.find(match_string) > 0
 
+def _check_matches(response, regex):
+    """Check to see if the response body matches a regex
+    return True/False
+    """
+    return re.search(regex, response.text)
 
