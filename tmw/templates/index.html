@@ -54,32 +54,34 @@
           <div class="container">
             <div class="row">
               <div class="col-md-12">
-                <ul class="event-builder">
-                  <li>
-                    Tell me when
-                  </li>
-                  <li>
-                    <input type="text" placeholder="URL">
-                  </li>
-                  <li class="event-type">
-                    <select>
-                      <option class="response-event">responds with</option>
-                      <option class="response-string">shows</option>
-                    </select>
-                  </li>
-                  <li class="response">
-                    <select>
-                      <option>200</option>
-                      <option>500</option>
-                    </select>
-                  </li>
-                  <li class="string">
-                    <input type="text" placeholder="Success">
-                  </li>
-                  <li>
-                    <button class="btn btn-primary" type="submit">Go</button>
-                  </li>
-                </ul>
+                <form action="/tellme" method="POST">
+                  <ul class="event-builder">
+                    <li>
+                      Tell me when
+                    </li>
+                    <li>
+                      <input type="text" placeholder="URL" name="url">
+                    </li>
+                    <li class="event-type">
+                      <select name="check_type">
+                        <option class="response-event" value="status_code">responds with</option>
+                        <option class="response-string" value="string_match">shows</option>
+                      </select>
+                    </li>
+                    <li class="response">
+                      <select name="status_code">
+                        <option value="200">200</option>
+                        <option value="500">500</option>
+                      </select>
+                    </li>
+                    <li class="string">
+                      <input type="text" placeholder="Success" name="string_match">
+                    </li>
+                    <li>
+                      <button class="btn btn-primary" type="submit">Go</button>
+                    </li>
+                  </ul>
+                </form>
               </div>
             </div>
           </div>
@@ -94,60 +96,16 @@
               <th>Created</th>
               <th>Status</th>
             </tr>
+            {% for event in events %}
             <tr>
-              <td><a href="/">http://www.cnn.com/events</a></td>
-              <td>"breaking news"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
+              <td><a href="/">{{ event['url'] }}</a></td>
+              <td>"{{ event['value'] }}"</td>
+              <td>Time created</td>
+              <td><i class="success fa fa-check-circle" title="{{ Success if event['status'] else Failure }}"></i> Time finished</td>
             </tr>
-            <tr>
-              <td><a href="/">http://www.github.com</a></td>
-              <td>"new commit"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://tellmewhen.slack.com</a></td>
-              <td>"new message"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://www.cnn.com/events</a></td>
-              <td>"breaking news"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://www.github.com</a></td>
-              <td>"new commit"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://tellmewhen.slack.com</a></td>
-              <td>"new message"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://www.cnn.com/events</a></td>
-              <td>"breaking news"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://www.github.com</a></td>
-              <td>"new commit"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://tellmewhen.slack.com</a></td>
-              <td>"new message"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
-            </tr>
+            {% else %}
+              <td>No events found</td>
+            {% endfor %}
           </table>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="archive">
