@@ -5,8 +5,12 @@ app = Flask(__name__)
 
 @app.route('/')
 @app.route('/index.html', alias=True)
-def hello_world():
+def index():
     return render_template('index.html')
+
+@app.route('/hello')
+def hello():
+    return render_template('hello.html')
 
 @app.route('/tellme', methods = ['POST'])
 def tellme():

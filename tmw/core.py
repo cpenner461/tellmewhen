@@ -31,7 +31,7 @@ def check_until(url, check_type, check_value, frequency, num_checks):
         results = check_once(url, check_type, check_value)
 
         if results or checks_done == num_checks:
-            return results
+            return (results, checks_done)
 
         sys.stdout.write('.')
         sys.stdout.flush()
@@ -40,7 +40,7 @@ def check_until(url, check_type, check_value, frequency, num_checks):
 
     sys.stdout.write('\n')
     sys.stdout.flush()
-    return results
+    return (results, checks_done)
 
 def check_once(url, check_type, check_value):
     """Check a url once"""

@@ -6,7 +6,7 @@ import click
 import keyring
 
 import core
-from notify import notification_types
+from notify import notification_types, smtp_send
 from server import app
 
 CFG_FILE = os.path.expanduser("~/.tellmewhen")
@@ -15,6 +15,13 @@ KEYRING_SVC = "tellmewhen"
 def _config_exists():
     """Verify if a config file exists"""
     return os.path.exists(CFG_FILE)
+
+def _load_config():
+    """Load the config file"""
+    if _config_exists():
+        return json.loads(open(CFG_FILE, 'r').read())
+
+    return None
 
 @click.group()
 def cli():
@@ -45,12 +52,23 @@ def tellme(url, check_type, check_value, frequency, num_checks):
         click.style(check_value, bg='blue', fg='white')))
 
     try:
-        check_results = core.check_until(url, check_type, check_value,
+        (check_results, total_checks) = core.check_until(url, check_type, check_value,
                 frequency, num_checks)
+
         if check_results:
             click.secho('It does!', bg='green', fg='white')
         else:
             click.secho('It does NOT!', bg='red', fg='white')
+
+        if _config_exists():
+            event = '{0} had a "{1}" that {2} "{3}" after {4} check{5}'.format(
+                    url, check_type,
+                    'matched' if check_results else 'did not match',
+                    check_value, total_checks,
+                    's' if total_checks > 1 else '')
+            
+            click.echo('Sending notification ...')
+            smtp_send(event, _load_config())
 
     except core.TMWCoreException, e:
         click.secho('ERROR: %s' % e.message, fg='red', bold=True)
@@ -104,7 +122,7 @@ def configure_notifications(force):
 
     click.echo('Saving config file {0}'.format(CFG_FILE))
     with open(CFG_FILE, 'w') as f:
-        f.write(json.dumps(config))
+        f.write(json.dumps(config, indent=4))
 
 
 @cli.command()
