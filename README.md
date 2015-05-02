@@ -23,5 +23,3 @@ For now, we're adding flask commands in ``tmw/server.py`` and adding click comma
 Click: http://click.pocoo.org/4/
 Flask: http://flask.pocoo.org/docs/0.10/
 
-
-
