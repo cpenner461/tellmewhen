@@ -5,23 +5,10 @@ import os
 import click
 import keyring
 
+import config
 import core
-from notify import notification_types, smtp_send
+from notify import channels, notify
 from server import app
-
-CFG_FILE = os.path.expanduser("~/.tellmewhen")
-KEYRING_SVC = "tellmewhen"
-
-def _config_exists():
-    """Verify if a config file exists"""
-    return os.path.exists(CFG_FILE)
-
-def _load_config():
-    """Load the config file"""
-    if _config_exists():
-        return json.loads(open(CFG_FILE, 'r').read())
-
-    return None
 
 @click.group()
 def cli():
@@ -42,7 +29,7 @@ def cli():
 def tellme(url, check_type, check_value, frequency, num_checks):
     """Check a url to see if it matches"""
 
-    if not _config_exists():
+    if not config._exists():
         click.secho('WARNING: No config file found, notifications will not be sent',
                 bg='yellow', fg='black')
 
@@ -60,15 +47,15 @@ def tellme(url, check_type, check_value, frequency, num_checks):
         else:
             click.secho('It does NOT!', bg='red', fg='white')
 
-        if _config_exists():
+        if config._exists():
             event = '{0} had a "{1}" that {2} "{3}" after {4} check{5}'.format(
                     url, check_type,
                     'matched' if check_results else 'did not match',
                     check_value, total_checks,
                     's' if total_checks > 1 else '')
             
-            click.echo('Sending notification ...')
-            smtp_send(event, _load_config())
+            click.echo('Sending notifications ...')
+            notify(event)
 
     except core.TMWCoreException, e:
         click.secho('ERROR: %s' % e.message, fg='red', bold=True)
@@ -79,50 +66,57 @@ def tellme(url, check_type, check_value, frequency, num_checks):
 def configure_notifications(force):
     """Configure notification settings (e.g. smtp/slack settings)"""
 
-    if os.path.exists(CFG_FILE):
+    if config._exists():
         if not force:
             click.echo('Config already exists - try again with --force')
             return
         else:
             click.echo('Replacing existing config')
 
-    click.secho('## Notification Configuration ##', bg='blue', fg='white', bold=True)
-
-    valid_types = notification_types.keys()
-    notification_type = None
-    while notification_type not in valid_types:
-
-        notification_type = click.prompt('Enter type of notification',
-            default=valid_types[0])
-        if notification_type not in valid_types:
-            click.secho('Invalid type, must be one of %s' % valid_types,
-                    bg='red', fg='white', bold=True)
-  
     config = {}
     keyring_config = {}
-    for f in notification_types[notification_type]['fields']:
+    any_channel = False
+    click.secho('## Notification Configuration ##', bg='blue', fg='white', bold=True)
+    for channel in channels.keys():
+        
+        enable = click.prompt('Enable {0} channel? (y/n)'.format(channel), 
+            type=bool)
+        
+        if enable:
 
-        value = click.prompt(
-                '  %s' % f['name'], 
-                type=f['type'], 
-                default=f['default'],
-                hide_input=f.get('hide_input', False),
-            )
+            any_channel = True
 
-        if f.get('hide_input', False):
-            keyring_config[f['name']] = value
-            config[f['name']] = None
-        else:
-            config[f['name']] = value
+            config[channel] = {}
 
-    if keyring_config:
-        click.echo('Saving sensitive data to keyring')
-        for k,v in keyring_config.iteritems():
-            keyring.set_password(KEYRING_SVC, k, v)
+            click.secho('### {0} ###'.format(channel), bg='blue', fg='white')
+            for f in channels[channel]['fields']:
 
-    click.echo('Saving config file {0}'.format(CFG_FILE))
-    with open(CFG_FILE, 'w') as f:
-        f.write(json.dumps(config, indent=4))
+                value = click.prompt(
+                        '  %s' % f['name'], 
+                        type=f['type'], 
+                        default=f['default'],
+                        hide_input=f.get('hide_input', False),
+                    )
+
+                if f.get('hide_input', False):
+                    keyring_config['{0}:{1}'.format(channel, f['name'])] = value
+                    config[channel][f['name']] = None
+                else:
+                    config[channel][f['name']] = value
+
+            if keyring_config:
+                click.echo('Saving sensitive data to keyring')
+                for k,v in keyring_config.iteritems():
+                    keyring.set_password(config.KEYRING_SVC, k, v)
+
+
+    if any_channel:
+        click.echo('Saving config file {0}'.format(config.CFG_FILE))
+        with open(config.CFG_FILE, 'w') as f:
+            f.write(json.dumps(config, indent=4))
+    else:
+        click.secho('WARNING: No channels enabled - not writing config', 
+                bg='yellow', fg='black')
 
 
 @cli.command()

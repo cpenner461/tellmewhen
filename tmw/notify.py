@@ -5,7 +5,8 @@ import pwd
 import smtplib
 
 import keyring
-KEYRING_SVC = "tellmewhen"
+
+from config import KEYRING_SVC, load_config
 
 def _curr_user():
     uid = os.geteuid()
@@ -22,9 +23,29 @@ smtp_config = {
         { 'name': 'recipients', 'type': unicode, 'default': None, },
     ]
 }
-notification_types = defaultdict(list)
-for n in (smtp_config, ):
-    notification_types[n['name']] = n
+slack_config = {
+    'name': 'slack',
+    'fields': [
+        { 'name': 'username', 'type': unicode, 'default': _curr_user(), },
+        { 'name': 'password', 'type': unicode, 'default': None, 'hide_input': True, },
+        { 'name': 'channel', 'type': unicode, 'default': None, },
+    ]
+}
+channels = defaultdict(list)
+for n in (smtp_config, slack_config):
+    channels[n['name']] = n
+
+
+def notify(event):
+    """Notify of an event"""
+
+    for channel in load_config():
+        if channel == 'smtp':
+            print('smtp notify')
+            smtp_send(event, load_config()['smtp'])
+        
+        if channel == 'slack':
+            print('no slack yet')
 
 def smtp_send(event, config):
     """Send a notification via SMTP"""
@@ -37,7 +58,7 @@ def smtp_send(event, config):
     msg = msg + event
 
     s = smtplib.SMTP_SSL(config.get('server'), config.get('port'))
-    s.login(config.get('username'), keyring.get_password(KEYRING_SVC, 'password'))
+    s.login(config.get('username'), keyring.get_password(KEYRING_SVC, 'smtp:password'))
     s.sendmail(from_addr, to_addr, msg)
     s.quit()
 
