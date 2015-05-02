@@ -1,0 +1,32 @@
+body {
+	background: url("../img/escape3.jpg") no-repeat; 
+	background-size: cover;
+	background-color:#ccc;
+}
+
+.navbar-inverse {
+  background:rgba(0,0,0,0.7);
+  border-color: #080808;
+}
+
+.navbar-inner {padding:10px;}
+a.brand {color:#f0ad4e; font-size:22px;}
+
+.marketing-banner {
+	font-size:2em;
+}
+
+.git-told {background:rgba(255,255,255,0.7); 	text-align:center; margin:100px 20% 200px 20%; padding:30px;}
+.git-told .btn {font-size:3em !important; border-radius: 10px;}
+.escape {color:#000; font-size:13px; margin-bottom:30px; text-shadow:none; display:block; font-family:"Lucida Console";}
+
+
+.features {
+	background:rgba(0,0,0,0.7); 
+	color:#fff; 
+	padding:25px; 
+    width:100%;
+}
+.features a {color:#f0ad4e;}
+
+.ht7 img {height:100px;}

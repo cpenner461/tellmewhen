@@ -122,7 +122,7 @@ def configure_notifications(force):
 
     click.echo('Saving config file {0}'.format(CFG_FILE))
     with open(CFG_FILE, 'w') as f:
-        f.write(json.dumps(config))
+        f.write(json.dumps(config, indent=4))
 
 
 @cli.command()

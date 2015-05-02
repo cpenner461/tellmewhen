@@ -1,21 +1,25 @@
 
 from collections import defaultdict
 import os
+import pwd
 import smtplib
 
 import keyring
 KEYRING_SVC = "tellmewhen"
+
+def _curr_user():
+    uid = os.geteuid()
+    return pwd.getpwuid(uid)[0]
 
 smtp_config = {
     'name': 'smtp',
     'fields': [
         { 'name': 'server', 'type': unicode, 'default': 'localhost', },
         { 'name': 'port', 'type': int, 'default': 465, },
-        { 'name': 'username', 'type': unicode, 'default': os.getlogin(), },
+        { 'name': 'username', 'type': unicode, 'default': _curr_user(), },
         { 'name': 'password', 'type': unicode, 'default': None, 'hide_input': True, },
         { 'name': 'sender', 'type': unicode, 'default': None, },
         { 'name': 'recipients', 'type': unicode, 'default': None, },
-
     ]
 }
 notification_types = defaultdict(list)
