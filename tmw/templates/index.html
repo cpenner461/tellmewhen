@@ -34,7 +34,7 @@
 
   <body>
 
-  <div class="container">
+  <div class="container-fluid">
     <div class="page-header">
       <h1>Tell Me When</h1>
     </div>
@@ -51,7 +51,7 @@
       <!-- Tab panes -->
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane fade in active" id="builder">
-          <div class="container">
+          <div class="container-fluid">
             <div class="row">
               <div class="col-md-12">
                 <form action="/tellme" method="POST">
@@ -60,22 +60,22 @@
                       Tell me when
                     </li>
                     <li>
-                      <input type="text" placeholder="URL" name="url">
+                      <input type="text" placeholder="URL" name="url" class="form-control">
                     </li>
                     <li class="event-type">
-                      <select name="check_type">
+                      <select name="check_type" class="form-control">
                         <option class="response-event" value="status_code">responds with</option>
                         <option class="response-string" value="string_match">shows</option>
                       </select>
                     </li>
                     <li class="response">
-                      <select name="status_code">
+                      <select name="status_code" class="form-control">
                         <option value="200">200</option>
                         <option value="500">500</option>
                       </select>
                     </li>
                     <li class="string">
-                      <input type="text" placeholder="Success" name="string_match">
+                      <input type="text" placeholder="Success" name="string_match" class="form-control">
                     </li>
                     <li>
                       <button class="btn btn-primary" type="submit">Go</button>
