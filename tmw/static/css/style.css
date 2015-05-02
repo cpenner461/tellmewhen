@@ -31,3 +31,14 @@
 .event-builder li.string {
 	display:none;
 }
+
+.form-control {
+	line-height:1.4;
+}
+
+#builder form {
+	background-color:#ddd;
+	display:block;
+	margin-top:30px;
+	padding:1px 0;
+}

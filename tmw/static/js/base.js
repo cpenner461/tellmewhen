@@ -1,6 +1,6 @@
 $( ".event-type select" ).on('change', function() {
   console.log( this.value );
-  if (this.value == "shows") {
+  if (this.value == "string_match") {
   	$( ".response" ).hide();
   	$( ".string" ).css( "display" , "inline-block" );
   } else {
