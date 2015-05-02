@@ -3,17 +3,21 @@ from collections import defaultdict
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import os
+import pwd
 import smtplib
+
+def _curr_user():
+    uid = os.geteuid()
+    return pwd.getpwuid(uid)[0]
 
 smtp_config = {
     'name': 'smtp',
     'fields': [
         { 'name': 'server', 'type': unicode, 'default': 'localhost', },
         { 'name': 'port', 'type': int, 'default': 465, },
-        { 'name': 'username', 'type': unicode, 'default': os.getlogin(), },
+        { 'name': 'username', 'type': unicode, 'default': _curr_user(), },
         { 'name': 'password', 'type': unicode, 'default': None, 'hide_input': True, },
         { 'name': 'recipients', 'type': unicode, 'default': None, },
-
     ]
 }
 notification_types = defaultdict(list)
