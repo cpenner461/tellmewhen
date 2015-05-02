@@ -3,20 +3,21 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>Tell Me When | Events Archive | Yearly</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="../static/css/bootstrap.css" rel="stylesheet">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
         padding-bottom: 40px;
       }
     </style>
-    <link href="../static/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -26,100 +27,271 @@
     <!-- Fav and touch icons -->
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="../assets/ico/favicon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+    <!--<link rel="shortcut icon" href="../assets/ico/favicon.png">-->
   </head>
 
   <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">Project name</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li class="nav-header">Nav header</li>
-                  <li><a href="#">Separated link</a></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-            <form class="navbar-form pull-right">
-              <input class="span2" type="text" placeholder="Email">
-              <input class="span2" type="password" placeholder="Password">
-              <button type="submit" class="btn">Sign in</button>
-            </form>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
+  <div class="container">
+    <div class="page-header">
+      <h1>Tell Me When</h1>
     </div>
-
-    <div class="container">
-
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
-        <h1>Tell Me When</h1>
-        <p>List of available functions:</p>
-        <ul>
-          <li>HTTP Response Codes</li>
-          <li>Web Content String Search</li>
-          <li>Self-Defined API/HADOOP (console)</li>
-        </ul>
-      </div>
-
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="span4">
-          <h2>Monitor HTTP</h2>
+    <div class="page-header">
+      <h2>Archive</h2>
+    </div>
+    <div role="tabpanel">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs nav-justified" role="tablist">
+        <li role="presentation" class="active" id="builder-tab"><a href="#builder" aria-controls="builder" role="tab" data-toggle="tab">Builder</a></li>
+        <li role="presentation" id="events-tab"><a href="#events" aria-controls="events" role="tab" data-toggle="tab">Events</a></li>
+        <li role="presentation" is="archive-tab"><a href="#archive" aria-controls="archive" role="tab" data-toggle="tab">Archive</a></li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="builder">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <ul class="event-builder">
+                  <li>
+                    Tell me when
+                  </li>
+                  <li>
+                    <input type="text" placeholder="URL">
+                  </li>
+                  <li class="event-type">
+                    <select>
+                      <option class="response-event">responds with</option>
+                      <option class="response-string">shows</option>
+                    </select>
+                  </li>
+                  <li class="response">
+                    <select>
+                      <option>200</option>
+                      <option>500</option>
+                    </select>
+                  </li>
+                  <li class="string">
+                    <input type="text" placeholder="Success">
+                  </li>
+                  <li>
+                    <button class="btn btn-primary" type="submit">Go</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="span4">
-          <h2>Search Strings</h2>
-       </div>
-        <div class="span4">
-          <h2>Check the Console</h2>
+        <div role="tabpanel" class="tab-pane fade" id="events">
+          <div class="page-header"><h2>Events</h2></div>
+          <!-- Events Table -->
+          <table class="table">
+            <tr>
+              <th>Event URL</th>
+              <th>Shows</th>
+              <th>Created</th>
+              <th>Status</th>
+            </tr>
+            <tr>
+              <td><a href="/">http://www.cnn.com/events</a></td>
+              <td>"breaking news"</td>
+              <td>2015-05-05 5:43PM</td>
+              <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
+            </tr>
+            <tr>
+              <td><a href="/">http://www.github.com</a></td>
+              <td>"new commit"</td>
+              <td>2015-05-05 5:43PM</td>
+              <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
+            </tr>
+            <tr>
+              <td><a href="/">http://tellmewhen.slack.com</a></td>
+              <td>"new message"</td>
+              <td>2015-05-05 5:43PM</td>
+              <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
+            </tr>
+            <tr>
+              <td><a href="/">http://www.cnn.com/events</a></td>
+              <td>"breaking news"</td>
+              <td>2015-05-05 5:43PM</td>
+              <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
+            </tr>
+            <tr>
+              <td><a href="/">http://www.github.com</a></td>
+              <td>"new commit"</td>
+              <td>2015-05-05 5:43PM</td>
+              <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
+            </tr>
+            <tr>
+              <td><a href="/">http://tellmewhen.slack.com</a></td>
+              <td>"new message"</td>
+              <td>2015-05-05 5:43PM</td>
+              <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
+            </tr>
+            <tr>
+              <td><a href="/">http://www.cnn.com/events</a></td>
+              <td>"breaking news"</td>
+              <td>2015-05-05 5:43PM</td>
+              <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
+            </tr>
+            <tr>
+              <td><a href="/">http://www.github.com</a></td>
+              <td>"new commit"</td>
+              <td>2015-05-05 5:43PM</td>
+              <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
+            </tr>
+            <tr>
+              <td><a href="/">http://tellmewhen.slack.com</a></td>
+              <td>"new message"</td>
+              <td>2015-05-05 5:43PM</td>
+              <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
+            </tr>
+          </table>
         </div>
+        <div role="tabpanel" class="tab-pane fade" id="archive">
+          <!-- Page Header -->
+          <div class="page-header"><h2>Events Archive</h2></div>
+          <div class="row">
+            <div class="col-sm-2">
+              <!-- Archive Navigation -->
+              <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="archive.html">Today</a></li>
+                <li><a href="archive.html">Monthly</a></li>
+                <li><a href="archive-year.html">Yearly</a></li>
+              </ul>
+            </div>
+            <div class="col-sm-1">
+              <!-- Month Navigation -->
+              <ul class="nav nav-pills nav-stacked">
+                <li><a href="archive-year.html">2015</a></li>
+                <li><a href="archive-year.html">2014</a></li>
+                <li class="active"><a href="archive-year.html">2013</a></li>
+              </ul>
+            </div>
+            <div class="col-sm-9">
+              <div class="row">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <ul class="nav nav-pills">
+                      <li><a href="archive-year.html">Jan</a></li>
+                      <li><a href="archive-year.html">Feb</a></li>
+                      <li><a href="archive-year.html">Mar</a></li>
+                      <li><a href="archive-year.html">Apr</a></li>
+                      <li class="active"><a href="/">May</a></li>
+                      <li><a href="archive-year.html">Jun</a></li>
+                      <li><a href="archive-year.html">July</a></li>
+                      <li><a href="archive-year.html">Aug</a></li>
+                      <li><a href="archive-year.html">Sep</a></li>
+                      <li><a href="archive-year.html">Oct</a></li>
+                      <li><a href="archive-year.html">Nov</a></li>
+                      <li><a href="archive-year.html">Dec</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- Month Panel -->
+                <div class="panel panel-default">
+                  <div class="panel-heading">May</div>
+                  <!-- Events Table -->
+                  <table class="table">
+                    <tr>
+                      <th>Event URL</th>
+                      <th>Shows</th>
+                      <th>Created</th>
+                      <th>Status</th>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://www.cnn.com/events</a></td>
+                      <td>"breaking news"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://www.github.com</a></td>
+                      <td>"new commit"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://tellmewhen.slack.com</a></td>
+                      <td>"new message"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://www.cnn.com/events</a></td>
+                      <td>"breaking news"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://www.github.com</a></td>
+                      <td>"new commit"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://tellmewhen.slack.com</a></td>
+                      <td>"new message"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://www.cnn.com/events</a></td>
+                      <td>"breaking news"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://www.github.com</a></td>
+                      <td>"new commit"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://tellmewhen.slack.com</a></td>
+                      <td>"new message"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                  </table>
+                </div>
+                <!-- /.panel .panel-default -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.col-sm-9 -->
+          </div>
+          <!-- /.col-sm-9 -->
+        </div>
+        <!-- /.tab-pane .fade -->
       </div>
+      <!-- /.tab-content -->
+    </div>
+    <!-- /.tabpanel -->
+  </div>
+  <!-- /.container -->
 
-      <hr>
-
-      <footer>
-        <p>&copy; Company 2013</p>
-      </footer>
-
-    </div> <!-- /container -->
-
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../assets/js/jquery.js"></script>
-    <script src="../assets/js/bootstrap-transition.js"></script>
-    <script src="../assets/js/bootstrap-alert.js"></script>
-    <script src="../assets/js/bootstrap-modal.js"></script>
-    <script src="../assets/js/bootstrap-dropdown.js"></script>
-    <script src="../assets/js/bootstrap-scrollspy.js"></script>
-    <script src="../assets/js/bootstrap-tab.js"></script>
-    <script src="../assets/js/bootstrap-tooltip.js"></script>
-    <script src="../assets/js/bootstrap-popover.js"></script>
-    <script src="../assets/js/bootstrap-button.js"></script>
-    <script src="../assets/js/bootstrap-collapse.js"></script>
-    <script src="../assets/js/bootstrap-carousel.js"></script>
-    <script src="../assets/js/bootstrap-typeahead.js"></script>
-
+  <!-- Le javascript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="../static/js/jquery-2.1.3.min.js"></script>
+  <script src="../static/js/bootstrap.min.js"></script>
+  <script src="../static/js/base.js"></script>
+  <!--<script src="../static/js/bootstrap-transition.js"></script>
+  <script src="../static/js/bootstrap-alert.js"></script>
+  <script src="../static/js/bootstrap-modal.js"></script>
+  <script src="../static/js/bootstrap-dropdown.js"></script>
+  <script src="../static/js/bootstrap-scrollspy.js"></script>
+  <script src="../static/js/bootstrap-tab.js"></script>
+  <script src="../static/js/bootstrap-tooltip.js"></script>
+  <script src="../static/js/bootstrap-popover.js"></script>
+  <script src="../static/js/bootstrap-button.js"></script>
+  <script src="../static/js/bootstrap-collapse.js"></script>
+  <script src="../static/js/bootstrap-carousel.js"></script>
+  <script src="../static/js/bootstrap-typeahead.js"></script>-->
   </body>
 </html>
