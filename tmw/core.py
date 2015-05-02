@@ -24,14 +24,16 @@ def check_until(url, check_type, check_value, frequency, num_checks):
     results = False
 
     while (checks_done < num_checks or num_checks == 0) and not results:
+        
+        checks_done += 1
         results = check_once(url, check_type, check_value)
 
-        if results:
+        if results or checks_done == num_checks:
             return results
+
         sys.stdout.write('.')
         sys.stdout.flush()
         
-        checks_done += 1
         time.sleep(frequency)
 
     sys.stdout.write('\n')
