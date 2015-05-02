@@ -1,1 +1,21 @@
 h1 { color: #ff0000 }
+
+/* Custom */
+
+.success {
+  color: #4CAF50;
+}
+
+.failure {
+  color: #D32F2F;
+}
+
+.cancel {
+  color: #9E9E9E;
+}
+
+/* Bootstrap Overrides */
+
+.panel-heading {
+  font-weight: bold;
+}
