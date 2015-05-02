@@ -9,6 +9,7 @@
 
     <!-- Le styles -->
     <link href="../static/css/bootstrap.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -35,22 +36,53 @@
     <div class="container">
 
     	<div role="tabpanel">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs nav-justified" role="tablist">
+        	<li role="presentation" class="active" id="builder-tab"><a href="#builder" aria-controls="builder" role="tab" data-toggle="tab">Event builder</a></li>
+        	<li role="presentation" id="events-tab"><a href="#events" aria-controls="events" role="tab" data-toggle="tab">Running events</a></li>
+        	<li role="presentation" is="archive-tab"><a href="#archive" aria-controls="archive" role="tab" data-toggle="tab">Archive</a></li>
+        </ul>
 
-		<!-- Nav tabs -->
-		<ul class="nav nav-tabs nav-justified" role="tablist">
-			<li role="presentation" class="active" id="builder-tab"><a href="#builder" aria-controls="builder" role="tab" data-toggle="tab">Builder</a></li>
-			<li role="presentation" id="events-tab"><a href="#events" aria-controls="events" role="tab" data-toggle="tab">Events</a></li>
-			<li role="presentation" is="archive-tab"><a href="#archive" aria-controls="archive" role="tab" data-toggle="tab">Archive</a></li>
-		</ul>
-
-		<!-- Tab panes -->
-		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane fade in active" id="builder">Builder</div>
-			<div role="tabpanel" class="tab-pane fade" id="events">Events</div>
-			<div role="tabpanel" class="tab-pane fade" id="archive">Archive</div>
-		</div>
-
-		</div>
+    		<!-- Tab panes -->
+    		<div class="tab-content">
+    			<div role="tabpanel" class="tab-pane fade in active" id="builder">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <ul class="event-builder">
+                    <li>
+                      Tell me when
+                    </li>
+                    <li>
+                      <input type="text" placeholder="URL">
+                    </li>
+                    <li class="event-type">
+                      <select>
+                        <option class="response-event">responds with</option>
+                        <option class="response-string">shows</option>
+                      </select>
+                    </li>
+                    <li class="response">
+                      <select>
+                        <option>200</option>
+                        <option>500</option>
+                      </select>
+                    </li>
+                    <li class="string">
+                      <input type="text" placeholder="Success">
+                    </li>
+                    <li>
+                      <button class="btn btn-primary" type="submit">Go</button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+    			<div role="tabpanel" class="tab-pane fade" id="events">Events</div>
+    			<div role="tabpanel" class="tab-pane fade" id="archive">Archive</div>
+    		</div>
+  		</div>
       <hr>
       <footer>
       </footer>

@@ -19,3 +19,17 @@ h1 { color: #ff0000 }
 .panel-heading {
   font-weight: bold;
 }
+
+/* Event builder statement */
+.event-builder {
+	margin:100px 0;
+	text-align:center;
+}
+
+.event-builder li {
+	display:inline-block;
+}
+
+.event-builder li.string {
+	display:none;
+}
