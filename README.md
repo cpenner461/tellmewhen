@@ -41,3 +41,7 @@ commands in ``tmw/cli.py``. A new [Click]() command must have the decorator
 [virtualenv]: https://pypi.python.org/pypi/virtualenv
 [virtualenvwrapper]: http://virtualenvwrapper.readthedocs.org
 
+## PyPi
+
+For deploying to PyPi: ``python setup.py sdist upload``
+
