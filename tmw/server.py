@@ -9,6 +9,8 @@ from flask import render_template, request
 import tmw.config as config
 import tmw.core as core
 
+import json
+
 from multiprocessing import Pool
 
 app = Flask(__name__)
@@ -51,6 +53,9 @@ def index():
         jobs.append({ 'url': url, 'value': value, 'status': "pending" })
         return render_template('index.html', jobs=jobs)
 
+@app.route('/_job_status')
+def _job_status():
+    return json.dumps(jobs)
 
 @app.route('/hello')
 def hello():
