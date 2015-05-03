@@ -20,6 +20,11 @@ def load_config():
 
     return {}
 
+def write_config(config):
+	"""Saves the config"""
+	with open(CFG_FILE, 'w') as f:
+            f.write(json.dumps(config, indent=4))
+
 def load_channel_config(channel):
     """Load the config file"""
     return load_config().get(channel, {})
