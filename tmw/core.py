@@ -32,7 +32,7 @@ def check_until(url, check_type, check_value, frequency, num_checks, index = Non
 
         checks_done += 1
         results = check_once(url, check_type, check_value)
-        
+
         if results or checks_done == num_checks:
             return (results, checks_done, index)
 
@@ -106,5 +106,6 @@ def _check_matches(response, regex):
     """Check to see if the response body matches a regex
     return True/False
     """
-    return re.search(regex, response.text)
+    results = re.search(regex, response.text)
+    return results != None
 

@@ -24,33 +24,47 @@ pool = Pool(processes=2)
 
 @click.group()
 def cli():
-    """The basic commands in this thing."""
-    pass
-
-@cli.command()
-@click.option('--url', prompt='URL', help='URL to watch')
-@click.option('--check_type', prompt='Type of check',
-        type=click.Choice(core.event_types), 
-        help='Type of check to perform')
-@click.option('--check_value', prompt='Check value',
-        help='Expected value to alert on')
-@click.option('--frequency', default=10,
-        help='Frequency to check (in seconds)')
-@click.option('--num_checks', prompt='Number of checks:', 
-        help='How many times to check (0 is infinite)', default=1)
-def tellme(url, check_type, check_value, frequency, num_checks):
-    """Check a url to see if it matches"""
+    '''The basic commands in this thing.'''
 
     if not config.exists():
         click.secho('WARNING: No config file found, notifications will not be sent',
                 bg='yellow', fg='black')
 
-    click.echo('Telling you if {0}\n  has a {1}\n  that matches {2} ... '.format(
+@cli.group()
+def admin():
+    '''Admin commands'''
+    pass
+
+@cli.group()
+def web():
+    '''Built-in web server'''
+
+    app.secret_key = os.urandom(24)
+
+url_arg = click.argument('url')
+freq_option = click.option('--frequency', default=10,
+        help='Frequency to check (in seconds)')
+num_checks_option = click.option('--num_checks', 
+        help='How many times to check (0 is infinite)', default=0)
+
+def _output_summary(url, check_type, check_value, frequency, num_checks):
+    '''output summary about what's being watched'''
+    
+    click.echo('Telling you if {0}\n  has a {1}\n  that matches {2}\n'
+        '  (checking every {3} {4}) ... '.format(
         click.style(url, bg='blue', fg='white'), 
         click.style(check_type, bg='blue', fg='white'), 
-        click.style(check_value, bg='blue', fg='white')),
+        click.style(check_value, bg='blue', fg='white'),
+        click.style('%ss' % frequency, fg='blue'),
+        click.style('forever' if num_checks == 0 else 'for %s interation%s' % (
+            num_checks, '' if num_checks == 1 else 's'), fg='blue'),
+        ),
         nl=False)
 
+
+def _do_check(url, check_type, check_value, frequency, num_checks):
+    '''Do the actual checking via our worker pool'''
+    
     try:
 
         check_results = None
@@ -102,14 +116,67 @@ def tellme(url, check_type, check_value, frequency, num_checks):
     pool.close()
     pool.join()
 
+
+@cli.command()
+@url_arg
+@click.argument('string')
+@freq_option
+@num_checks_option
+def page_contains(url, string, frequency, num_checks):
+    '''Check if URL contains STRING'''
+
+    check_type = 'string_match'
+
+    _output_summary(url, check_type, string, frequency, num_checks)
+    _do_check(url, check_type, string, frequency, num_checks)
+
     click.echo()
     click.secho('Told you so!', bg='green', fg='white', bold=True)
 
 @cli.command()
+@url_arg
+@click.argument('response_code')
+@freq_option
+@num_checks_option
+def page_returns(url, response_code, frequency, num_checks):
+    '''Check URL for RESPONSE_CODE'''
+
+    try:
+        response_code = int(response_code)
+    except ValueError, e:
+        click.secho('ERROR: response_code must be an int', fg='red', bold=True)
+        return 1
+
+    check_type = 'status_code'
+
+    _output_summary(url, check_type, unicode(response_code), frequency, num_checks)
+    _do_check(url, check_type, response_code, frequency, num_checks)
+
+    click.echo()
+    click.secho('Told you so!', bg='green', fg='white', bold=True)
+
+@cli.command()
+@url_arg
+@click.argument('pattern')
+@freq_option
+@num_checks_option
+def page_matches(url, pattern, frequency, num_checks):
+    '''Check URL for PATTERN (regex)'''
+
+    check_type = 'regex_match'
+    
+    _output_summary(url, check_type, pattern, frequency, num_checks)
+    _do_check(url, check_type, pattern, frequency, num_checks)
+
+    click.echo()
+    click.secho('Told you so!', bg='green', fg='white', bold=True)
+
+
+@admin.command()
 @click.option('--force', is_flag=True,
     help='Force configuration (i.e. redo an existing one)')
-def configure_notifications(force):
-    """Configure notification settings (e.g. smtp/slack settings)"""
+def configure(force):
+    '''Configure notification settings'''
 
     if config.exists():
         if not force:
@@ -159,13 +226,13 @@ def configure_notifications(force):
         click.secho('WARNING: No channels enabled - not writing config', 
                 bg='yellow', fg='black')
 
-@cli.command()
+@web.command()
 def serve():
-    """Run the flask server."""
-    app.secret_key = os.urandom(24)
+    '''Run the built-in Flask server'''
     app.run()
 
-@cli.command()
+@web.command()
 def debug():
+    '''Run the built-in Flask server in debug mode'''
     app.debug = True
     app.run()
