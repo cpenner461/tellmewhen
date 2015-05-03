@@ -30,23 +30,24 @@ def index():
 def hello():
     return render_template('hello.html')
 
-@app.route('/settings', methods = ["POST"])
+@app.route('/settings', methods = ["POST", "GET"])
 def settings():
 
-    f = request.form
+    if request.method == "POST":
+        f = request.form
 
-    conf = config.load_config()
-    _set_config_param(conf, 'smtp', 'username', f)
-    _set_config_param(conf, 'smtp', 'sender', f)
-    _set_config_param(conf, 'smtp', 'recipients', f)
-    _set_config_param(conf, 'smtp', 'server', f)
-    _set_config_param(conf, 'smtp', 'port', f, number = True)
-    _set_config_param(conf, 'slack', 'username', f)
-    _set_config_param(conf, 'slack', 'channel', f, prefix = "#")
+        conf = config.load_config()
+        _set_config_param(conf, 'smtp', 'username', f)
+        _set_config_param(conf, 'smtp', 'sender', f)
+        _set_config_param(conf, 'smtp', 'recipients', f)
+        _set_config_param(conf, 'smtp', 'server', f)
+        _set_config_param(conf, 'smtp', 'port', f, number = True)
+        _set_config_param(conf, 'slack', 'username', f)
+        _set_config_param(conf, 'slack', 'channel', f, prefix = "#")
 
-    config.write_config(conf)
+        config.write_config(conf)
 
-    return redirect('/')
+    return render_template('settings.html')
 
 def _set_config_param(conf, service, param, form, number = False, prefix = ""):
     if not conf.get(service):
