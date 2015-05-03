@@ -205,6 +205,7 @@ a.list-group-item:focus
 	display: inline-block;
   font-size: 18px;
   padding-right: 8px;
+  line-height: 3em;
 }
 
 .event-builder li.string {
@@ -216,12 +217,16 @@ a.list-group-item:focus
 }
 
 .event-builder .event-url {
-	width: 320px;
+  margin-bottom: 10px;
 }
 
 .event-builder .btn-primary {
   display: block;
   margin: 10px;
+}
+
+.events-table {
+  margin-bottom: 0 !important;
 }
 
 #builder form {

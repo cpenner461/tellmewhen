@@ -101,9 +101,10 @@ def _do_check(url, check_type, check_value, frequency, num_checks):
                     check_value, total_checks,
                     's' if total_checks > 1 else '')
 
-            job = pool.apply_async(tell, (event,))
-            click.echo('Telling your channels')
-            job.wait()
+            #job = pool.apply_async(tell, (event,))
+            #click.echo('Telling your channels')
+            #job.wait()
+            tell(event)
 
     except core.TMWCoreException, e:
         click.secho('TMW ERROR: %s' % e.message, fg='red', bold=True)

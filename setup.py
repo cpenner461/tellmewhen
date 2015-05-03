@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='tellmewhen',
-    version='0.1',
+    version='0.2',
     description='A simple tool to watch web resources and notify you when they change.',
     author="Charlie Penner",
     author_email="charles.penner@gmail.com",
@@ -15,7 +15,8 @@ setup(
         'Flask==0.10.1',
         'Requests==2.6.2',
         'Keyring==5.3',
-        'Flask-Session==0.1.1'
+        'Flask-Session==0.1.1',
+        'Jinja2==2.7.2',
     ],
     entry_points='''
         [console_scripts]

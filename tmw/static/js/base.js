@@ -33,7 +33,7 @@ $( ".num_checks select" ).on('change', function () {
 
 function update_events() {
   $.getJSON("/_job_status", function(data) {
-    $(".event-table").each(function() {
+    $(".events-table").each(function() {
       $(this).find("td i").each(function(index) {
         $(this).removeClass('success failure pending')
           .addClass(data[index]['status']);

@@ -4,11 +4,14 @@ criteria.
 '''
 
 from collections import defaultdict
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import json
 import os
 import pwd
 import smtplib
 
+from jinja2 import Environment, PackageLoader
 import keyring
 import requests
 
@@ -63,20 +66,40 @@ def tell_smtp(event, config):
 
     from_addr = config.get('sender')
     to_addr = config.get('recipients')
+  
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = '[tellmewhen]'
+    msg['From'] = from_addr
+    msg['To'] = to_addr
+
+    text = '%s' % event
     
-    msg = ('From: {0}\r\nTo: {1}\r\nSubject: [tellmewhen]\r\n\r\n'.format(
-           from_addr, to_addr))
-    msg = msg + event
+    env = Environment(loader=PackageLoader('tmw', 'templates'))
+    html_template = env.get_template('email-notification.html') 
+
+    html = html_template.render(event=event)
+
+    #html = '<html><head></head><body><h1>tellmewhen</h1><p>{0}</p></body></html>'.format( event)
+
+    part1 = MIMEText(text, 'plain')
+    part2 = MIMEText(html, 'html')
+
+    msg.attach(part1)
+    msg.attach(part2)
+
+    #msg = ('From: {0}\r\nTo: {1}\r\nSubject: [tellmewhen]\r\n\r\n'.format(
+    #       from_addr, to_addr))
+    #msg = msg + event
 
     s = smtplib.SMTP_SSL(config.get('server'), config.get('port'))
     s.login(config.get('username'), keyring.get_password(KEYRING_SVC, 'smtp:password'))
-    s.sendmail(from_addr, to_addr, msg)
+    #s.sendmail(from_addr, to_addr, msg)
+    s.sendmail(from_addr, to_addr, msg.as_string())
     s.quit()
 
 def tell_slack(event, config):
     """Tell slack about an event"""
     
-    slack_channel = config.get("channel")
     slack_url = config.get("webhook_url")
 
     payload = {
