@@ -4,11 +4,19 @@ criteria.
 '''
 
 from collections import defaultdict
+import json
 import os
 import pwd
 import smtplib
 
 import keyring
+import requests
+
+# TODO this is a Bad Idea
+# https://urllib3.readthedocs.org/en/latest/security.html#insecureplatformwarning
+# https://urllib3.readthedocs.org/en/latest/security.html
+from requests.packages import urllib3
+urllib3.disable_warnings()
 
 from tmw.config import KEYRING_SVC, load_config
 
@@ -30,9 +38,8 @@ smtp_config = {
 slack_config = {
     'name': 'slack',
     'fields': [
-        { 'name': 'username', 'type': unicode, 'default': _curr_user(), },
-        { 'name': 'password', 'type': unicode, 'default': None, 'hide_input': True, },
-        { 'name': 'channel', 'type': unicode, 'default': None, },
+        { 'name': 'webhook_url', 'type': unicode, 'default': None, },
+        { 'name': 'channel', 'type': unicode, 'default': '#tellmewhen', },
     ]
 }
 channels = defaultdict(list)
@@ -44,11 +51,11 @@ def tell(event):
 
     for channel in load_config():
         if channel == 'smtp':
-            print('[smtp] tell')
+            print('  [smtp] tell')
             tell_smtp(event, load_config()['smtp'])
         
         if channel == 'slack':
-            print('[slack] tell')
+            print('  [slack] tell')
             tell_slack(event, load_config()['slack'])
 
 def tell_smtp(event, config):
@@ -68,5 +75,16 @@ def tell_smtp(event, config):
 
 def tell_slack(event, config):
     """Tell slack about an event"""
-    print("NO SLACK!")
+    
+    slack_channel = config.get("channel")
+    slack_url = config.get("webhook_url")
+
+    payload = {
+        "channel": config.get("channel", "#general"),
+        "username": "webhookbot",
+        "text": event,
+        "icon-emoji": "alias:squirrel",
+    }
+
+    response = requests.post(slack_url, data=json.dumps(payload), verify=False)
 

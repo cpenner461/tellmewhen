@@ -49,15 +49,15 @@ def check_once(url, check_type, check_value):
         except ValueError:
             raise TMWCoreException("Status codes must be integers")
 
-        return status_check(url, check_value)
+        return _status_check(url, check_value)
     elif check_type == 'string_match':
-        return string_check(url, check_value)
+        return _string_check(url, check_value)
     if check_type == 'regex_match':
-        return regex_check(url, check_value)
+        return _regex_check(url, check_value)
     else:
         raise TMWCoreException('Invalid check type')
 
-def status_check(url, expected_code):
+def _status_check(url, expected_code):
     """Check a url for the expected_code
     return True/False"""
 
@@ -68,7 +68,7 @@ def status_check(url, expected_code):
     logger.debug('value is %s', value)
     return value
 
-def string_check(url, match_string):
+def _string_check(url, match_string):
     """Check a url for the match_string
     return True/False"""
 
@@ -77,7 +77,7 @@ def string_check(url, match_string):
             match_string
         )
 
-def regex_check(url, regex):
+def _regex_check(url, regex):
     """Checks a url to see if it matches the regex
     return True/False"""
     return _check_matches(
