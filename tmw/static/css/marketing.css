@@ -4,9 +4,19 @@ body {
 	background-color:#ccc;
 }
 
+.logo {
+  color: #FFF;
+  font-size: 24px;
+  font-weight: 300;
+  padding: 5px 0 5px 50px;
+  background: url(../img/logo.png) 0 0 no-repeat;
+  background-size: 40px 34px;
+}
+.logo a {color:#FFF;}
+
 .navbar-inverse {
-  background:rgba(0,0,0,0.7);
-  border-color: #080808;
+  background:rgba(20,128,226,0.7);
+  border-color: #1480e2;
 }
 
 .navbar-inner {padding:10px;}
@@ -16,17 +26,23 @@ a.brand {color:#f0ad4e; font-size:22px;}
 	font-size:2em;
 }
 
-.git-told {background:rgba(255,255,255,0.7); 	text-align:center; margin:100px 20% 200px 20%; padding:30px;}
+.git-told {background:rgba(255,255,255,0.7); text-align:center; margin:100px 20% 200px 20%; padding:30px; border:1px solid #FFF;}
 .git-told .btn {font-size:3em !important; border-radius: 10px;}
+.git-told .integrations {padding:30px 0px 0px 0px; font-size:10px;}
+.git-told .integrations a {height:20px;}
+.git-told .integration {height:20px; margin:5px;}
 .escape {color:#000; font-size:13px; margin-bottom:30px; text-shadow:none; display:block; font-family:"Lucida Console";}
 
 
 .features {
-	background:rgba(0,0,0,0.7); 
+	background:rgba(20,128,226,0.7); 
+	border-top:1px solid;
+	border-bottom:1px solid;
+	border-color: #1480e2;
 	color:#fff; 
 	padding:25px; 
     width:100%;
 }
-.features a {color:#f0ad4e;}
+.features a {color:#FFF; font-weight:bold;}
 
 .ht7 img {height:100px;}
