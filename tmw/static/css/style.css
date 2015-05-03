@@ -107,6 +107,11 @@ a.list-group-item:focus
   background-color: #E8F2FB;
 }
 
+.nav-tabs li a:hover,
+.nav-pills li a:hover {
+  background: #F0F5F9;
+}
+
 .panel-default>.panel-heading {
   background-color: white;
 }
@@ -168,4 +173,12 @@ a.list-group-item:focus
 	display: block;
 	margin-top: 30px;
 	padding: 1px 0;
+}
+
+.fa-server {
+  color: #E21565;
+}
+
+.fa-slack {
+  color: #2BA0BA;
 }
