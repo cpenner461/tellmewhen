@@ -7,6 +7,7 @@ import time
 
 import click
 import keyring
+from requests.exceptions import ConnectionError
 
 import config
 import core
@@ -63,6 +64,10 @@ def tellme(url, check_type, check_value, frequency, num_checks):
         while not job.ready():
             click.echo('.', nl=False)
             time.sleep(max(frequency, 1))
+
+        # this causes the exception to bubble up
+        if not job.successful():
+            job.get()
        
         # build summary and notify
         if config._exists():
@@ -78,7 +83,11 @@ def tellme(url, check_type, check_value, frequency, num_checks):
             job.wait()
 
     except core.TMWCoreException, e:
-        click.secho('ERROR: %s' % e.message, fg='red', bold=True)
+        click.secho('TMW ERROR: %s' % e.message, fg='red', bold=True)
+    except ConnectionError, e:
+        click.secho('CONNECTION ERROR: %s' % e.message, fg='red', bold=True)
+    except Exception, e:
+        click.secho('GENERAL ERROR: %s' % e.message, fg='red', bold=True)
 
     # shut down the pool
     pool.close()
