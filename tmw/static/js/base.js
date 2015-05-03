@@ -3,6 +3,12 @@ $( ".event-type select" ).on('change', function() {
   if (this.value == "string_match" || this.value == "regex_match") {
   	$( ".response" ).hide();
   	$( ".string" ).css( "display" , "inline-block" );
+
+    if (this.value == "regex_match") {
+      $( ".string input[name=string_match]" ).attr("placeholder", "regex");
+    } else {
+      $( ".string input[name=string_match]" ).attr("placeholder", "string");
+    }
   } else {
   	$( ".response" ).css( "display" , "inline-block" );
   	$( ".string" ).hide()
