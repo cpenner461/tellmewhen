@@ -1,3 +1,6 @@
+'''
+Some configuration constants and convenience functions.
+'''
 
 import json
 import os
@@ -17,15 +20,14 @@ def load_config():
     """Load the entire config"""
     if exists():
         return json.loads(open(CFG_FILE, 'r').read())
-
     return {}
+
+def load_channel_config(channel):
+    """Load config for a specific channel"""
+    return load_config().get(channel, {})
 
 def write_config(config):
     """Saves the config"""
     with open(CFG_FILE, 'w') as f:
         f.write(json.dumps(config, indent=4))
-
-def load_channel_config(channel):
-    """Load the config file"""
-    return load_config().get(channel, {})
 

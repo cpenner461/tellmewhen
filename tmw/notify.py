@@ -1,10 +1,22 @@
+'''
+Handle all notifications/telling for when events have met the specified
+criteria.
+'''
 
 from collections import defaultdict
+import json
 import os
 import pwd
 import smtplib
 
 import keyring
+import requests
+
+# TODO this is a Bad Idea
+# https://urllib3.readthedocs.org/en/latest/security.html#insecureplatformwarning
+# https://urllib3.readthedocs.org/en/latest/security.html
+from requests.packages import urllib3
+urllib3.disable_warnings()
 
 from tmw.config import KEYRING_SVC, load_config
 
@@ -26,9 +38,8 @@ smtp_config = {
 slack_config = {
     'name': 'slack',
     'fields': [
-        { 'name': 'username', 'type': unicode, 'default': _curr_user(), },
-        { 'name': 'password', 'type': unicode, 'default': None, 'hide_input': True, },
-        { 'name': 'channel', 'type': unicode, 'default': None, },
+        { 'name': 'webhook_url', 'type': unicode, 'default': None, },
+        { 'name': 'channel', 'type': unicode, 'default': '#tellmewhen', },
     ]
 }
 channels = defaultdict(list)
@@ -36,19 +47,19 @@ for n in (smtp_config, slack_config):
     channels[n['name']] = n
 
 def tell(event):
-    """Tell about an event"""
+    """Tell all configured channels about an event"""
 
     for channel in load_config():
         if channel == 'smtp':
-            print('[smtp] tell')
+            print('  [smtp] tell')
             tell_smtp(event, load_config()['smtp'])
         
         if channel == 'slack':
-            print('[slack] tell')
+            print('  [slack] tell')
             tell_slack(event, load_config()['slack'])
 
 def tell_smtp(event, config):
-    """Send a notification via SMTP"""
+    """Tell smtp about an event"""
 
     from_addr = config.get('sender')
     to_addr = config.get('recipients')
@@ -64,36 +75,16 @@ def tell_smtp(event, config):
 
 def tell_slack(event, config):
     """Tell slack about an event"""
-    print("NO SLACK!")
-
-'''
-# having problems getting the email libs to work with the multipart stuff
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-def _tell_smtp(event, config):
-    """Send a notification via SMTP"""
     
-    msg = MIMEMultipart('alternative')
+    slack_channel = config.get("channel")
+    slack_url = config.get("webhook_url")
 
-    from_addr = config.get('sender')
-    to_addr = config.get('recipients', '').split(',')
-    msg['From'] = from_addr
-    msg['To'] = to_addr
-    msg['Subject'] = '[tellmewhen]'
-    text = event
-    html = '<html><head></head><body><h1>tellmewhen</h1><p>{0}</p></body></html>'.format(
-        event)
+    payload = {
+        "channel": config.get("channel", "#general"),
+        "username": "webhookbot",
+        "text": event,
+        "icon-emoji": "alias:squirrel",
+    }
 
-    part1 = MIMEText(text, 'plain')
-    part2 = MIMEText(html, 'html')
+    response = requests.post(slack_url, data=json.dumps(payload), verify=False)
 
-    msg.attach(part1)
-    msg.attach(part2)
-
-    import pdb; pdb.set_trace()
-    print("msg:\n%s" % msg.as_string())
-
-    s = smtplib.SMTP(config.get('server'))
-    s.sendmail(from_addr, to_addr, msg.as_string())
-    s.quit()
-'''

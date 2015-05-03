@@ -1,6 +1,13 @@
+'''
 
-from multiprocessing import Pool
+This is the command line interface to tmw.  Usage is self documenting via built
+in help (e.g. `tmw --help`).
+'''
+
+import itertools
 import json
+from multiprocessing import Pool
+import sys
 import time
 
 import click
@@ -37,10 +44,11 @@ def tellme(url, check_type, check_value, frequency, num_checks):
         click.secho('WARNING: No config file found, notifications will not be sent',
                 bg='yellow', fg='black')
 
-    click.echo('Telling you if {0} has a {1} that matches {2}'.format(
+    click.echo('Telling you if {0}\n  has a {1}\n  that matches {2} ... '.format(
         click.style(url, bg='blue', fg='white'), 
         click.style(check_type, bg='blue', fg='white'), 
-        click.style(check_value, bg='blue', fg='white')))
+        click.style(check_value, bg='blue', fg='white')),
+        nl=False)
 
     try:
 
@@ -50,22 +58,24 @@ def tellme(url, check_type, check_value, frequency, num_checks):
         def _handle_results(results):
             (check_results, total_checks) = results
             if check_results:
-                click.secho('It does!', bg='green', fg='white')
+                click.secho('YES!', bg='green', fg='white')
             else:
-                click.secho('It does NOT!', bg='red', fg='white')
+                click.secho('NO!', bg='red', fg='white')
 
         job = pool.apply_async(
             core.check_until, 
             (url, check_type, check_value, frequency, num_checks),
             callback=_handle_results)
 
+        spinner = itertools.cycle(['-', '/', '|', '\\'])
         while not job.ready():
-            click.echo('.', nl=False)
-            time.sleep(max(frequency, 1))
+            sys.stdout.write(spinner.next())  # write the next character
+            sys.stdout.flush()                # flush stdout buffer (actual character display)
+            sys.stdout.write('\b')            # erase the last written char
+            time.sleep(.1)
 
         # this causes the exception to bubble up
-        if not job.successful():
-            job.get()
+        (check_results, total_checks) = job.get()
        
         # build summary and notify
         if config.exists():
@@ -75,9 +85,8 @@ def tellme(url, check_type, check_value, frequency, num_checks):
                     check_value, total_checks,
                     's' if total_checks > 1 else '')
 
-            click.echo('Queuing notifications')
             job = pool.apply_async(tell, (event,))
-            click.echo('Waiting for notifications to complete')
+            click.echo('Telling your channels')
             job.wait()
 
     except core.TMWCoreException, e:
@@ -90,6 +99,9 @@ def tellme(url, check_type, check_value, frequency, num_checks):
     # shut down the pool
     pool.close()
     pool.join()
+
+    click.echo()
+    click.secho('Told you so!', bg='green', fg='white', bold=True)
 
 @cli.command()
 @click.option('--force', is_flag=True,
@@ -114,11 +126,8 @@ def configure_notifications(force):
             type=bool)
         
         if enable:
-
             any_channel = True
-
             local_config[channel] = {}
-
             click.secho('### {0} ###'.format(channel), bg='blue', fg='white')
             for f in channels[channel]['fields']:
 
@@ -140,7 +149,6 @@ def configure_notifications(force):
                 for k,v in keyring_config.iteritems():
                     keyring.set_password(config.KEYRING_SVC, k, v)
 
-
     if any_channel:
         click.echo('Saving config file {0}'.format(config.CFG_FILE))
         with open(config.CFG_FILE, 'w') as f:
@@ -148,17 +156,6 @@ def configure_notifications(force):
     else:
         click.secho('WARNING: No channels enabled - not writing config', 
                 bg='yellow', fg='black')
-
-
-@cli.command()
-def hello():
-    """A basic hello world."""
-    click.echo('Hello World Again!')
-
-@cli.command()
-def bye():
-    """The opposite of hello world."""
-    click.echo('Goodbye cruel world.......')
 
 @cli.command()
 def serve():

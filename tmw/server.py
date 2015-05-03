@@ -1,3 +1,7 @@
+'''
+Built-in web server using Flask.  Should mirror functionality offered by the
+cli.
+'''
 
 from flask import Flask
 from flask import render_template, request
@@ -9,6 +13,8 @@ app = Flask(__name__)
 
 @app.route('/', methods = ["POST", "GET"])
 def index():
+    '''The main landing page and UI for tmw'''
+
     if request.method == "GET":
         return render_template('index.html')
     else:
@@ -31,10 +37,12 @@ def index():
 
 @app.route('/hello')
 def hello():
+    '''Simple page useful for testing/validating your tmw setup'''
     return render_template('hello.html')
 
 @app.route('/settings', methods = ["POST", "GET"])
 def settings():
+    '''Settings page'''
 
     if request.method == "POST":
         f = request.form
