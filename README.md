@@ -36,6 +36,9 @@ For now, we're adding [Flask]() commands in ``tmw/server.py`` and adding [Click]
 commands in ``tmw/cli.py``. A new [Click]() command must have the decorator 
 ``@cli.command()`` on it.
 
+## License
+tellmewhen is distributed under the MIT License, see LICENSE.txt for details.
+
 [Click]: http://click.pocoo.org/4/
 [Flask]: http://flask.pocoo.org/docs/0.10/
 [virtualenv]: https://pypi.python.org/pypi/virtualenv
