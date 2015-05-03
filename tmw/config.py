@@ -7,6 +7,7 @@ import os
 
 # some constants
 NUM_PROCESSES = 3
+SUBJECT = '[tmw]'
 
 # most of this is notification config 
 CFG_FILE = os.path.expanduser("~/.tellmewhen")

@@ -21,7 +21,7 @@ import requests
 from requests.packages import urllib3
 urllib3.disable_warnings()
 
-from tmw.config import KEYRING_SVC, load_config
+from tmw.config import SUBJECT, KEYRING_SVC, load_config
 
 def _curr_user():
     uid = os.geteuid()
@@ -49,6 +49,17 @@ channels = defaultdict(list)
 for n in (smtp_config, slack_config):
     channels[n['name']] = n
 
+def _event_text(event):
+    '''Convert an event dict to a string'''
+
+    return '{0} had a "{1}" that {2} "{3}" after {4} check{5}'.format(
+            event['url'], 
+            event['check_type'],
+            'matched' if event['check_results'] else 'did not match',
+            event['check_value'], 
+            event['total_checks'],
+            's' if event['total_checks'] > 1 else '')
+
 def tell(event):
     """Tell all configured channels about an event"""
 
@@ -68,7 +79,10 @@ def tell_smtp(event, config):
     to_addr = config.get('recipients')
   
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = '[tellmewhen]'
+    msg['Subject'] = '{0} ({1}) {2}'.format(SUBJECT, 
+        '+' if event['check_results'] else '-',
+        event['url'],
+        )
     msg['From'] = from_addr
     msg['To'] = to_addr
 
@@ -77,23 +91,19 @@ def tell_smtp(event, config):
     env = Environment(loader=PackageLoader('tmw', 'templates'))
     html_template = env.get_template('email-notification.html') 
 
-    html = html_template.render(event=event)
+    html = html_template.render(
+        url=event['url'],
+        check_type=event['check_type'],
+        check_results=event['check_results'],
+        check_value=event['check_value'],
+        total_checks=event['total_checks'],
+    )
 
-    #html = '<html><head></head><body><h1>tellmewhen</h1><p>{0}</p></body></html>'.format( event)
-
-    part1 = MIMEText(text, 'plain')
-    part2 = MIMEText(html, 'html')
-
-    msg.attach(part1)
-    msg.attach(part2)
-
-    #msg = ('From: {0}\r\nTo: {1}\r\nSubject: [tellmewhen]\r\n\r\n'.format(
-    #       from_addr, to_addr))
-    #msg = msg + event
+    msg.attach(MIMEText(text, 'plain'))
+    msg.attach(MIMEText(html, 'html'))
 
     s = smtplib.SMTP_SSL(config.get('server'), config.get('port'))
     s.login(config.get('username'), keyring.get_password(KEYRING_SVC, 'smtp:password'))
-    #s.sendmail(from_addr, to_addr, msg)
     s.sendmail(from_addr, to_addr, msg.as_string())
     s.quit()
 
@@ -105,8 +115,7 @@ def tell_slack(event, config):
     payload = {
         "channel": config.get("channel", "#general"),
         "username": "webhookbot",
-        "text": event,
-        "icon-emoji": "alias:squirrel",
+        "text": _event_text(event),
     }
 
     response = requests.post(slack_url, data=json.dumps(payload), verify=False)
