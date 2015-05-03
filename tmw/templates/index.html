@@ -76,7 +76,7 @@
         </div>
         <div role="tabpanel" class="tab-pane fade" id="events">
           <!-- Events Table -->
-          <table class="table">
+          <table class="table event-table">
             {% if jobs %}
             <tr>
               <th>Job URL</th>
@@ -147,67 +147,29 @@
                 <div class="panel panel-default">
                   <div class="panel-heading">May</div>
                   <!-- Events Table -->
-                  <table class="table">
+                  <table class="table event-table">
+                    {% if jobs %}
                     <tr>
-                      <th>Event URL</th>
+                      <th>Job URL</th>
                       <th>Shows</th>
                       <th>Created</th>
                       <th>Status</th>
                     </tr>
+                    {% endif %}
+                    {% for job in jobs %}
                     <tr>
-                      <td><a href="/">http://www.cnn.com/events</a></td>
-                      <td>"breaking news"</td>
-                      <td>2015-05-05 5:43PM</td>
-                      <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
+                      <td><a href="/">{{ job['url'] }}</a></td>
+                      <td>"{{ job['value'] }}"</td>
+                      <td>Time created</td>
+                      <td><i class="{{ job['status'] }} fa" title="{{ job['status'] | capitalize }}"></i> Time finished</td>
                     </tr>
-                    <tr>
-                      <td><a href="/">http://www.github.com</a></td>
-                      <td>"new commit"</td>
-                      <td>2015-05-05 5:43PM</td>
-                      <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
-                    </tr>
-                    <tr>
-                      <td><a href="/">http://tellmewhen.slack.com</a></td>
-                      <td>"new message"</td>
-                      <td>2015-05-05 5:43PM</td>
-                      <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
-                    </tr>
-                    <tr>
-                      <td><a href="/">http://www.cnn.com/events</a></td>
-                      <td>"breaking news"</td>
-                      <td>2015-05-05 5:43PM</td>
-                      <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
-                    </tr>
-                    <tr>
-                      <td><a href="/">http://www.github.com</a></td>
-                      <td>"new commit"</td>
-                      <td>2015-05-05 5:43PM</td>
-                      <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
-                    </tr>
-                    <tr>
-                      <td><a href="/">http://tellmewhen.slack.com</a></td>
-                      <td>"new message"</td>
-                      <td>2015-05-05 5:43PM</td>
-                      <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
-                    </tr>
-                    <tr>
-                      <td><a href="/">http://www.cnn.com/events</a></td>
-                      <td>"breaking news"</td>
-                      <td>2015-05-05 5:43PM</td>
-                      <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
-                    </tr>
-                    <tr>
-                      <td><a href="/">http://www.github.com</a></td>
-                      <td>"new commit"</td>
-                      <td>2015-05-05 5:43PM</td>
-                      <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
-                    </tr>
-                    <tr>
-                      <td><a href="/">http://tellmewhen.slack.com</a></td>
-                      <td>"new message"</td>
-                      <td>2015-05-05 5:43PM</td>
-                      <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
-                    </tr>
+                    {% else %}
+                      <td colspan="4" class="no-events">
+                        <div class="jumbotron text-center">
+                          <h3 class="lead jumbotron">No events found. <a href="/">Click here</a> to create an event.</h3>
+                        </div>
+                      </td>
+                    {% endfor %}
                   </table>
                 </div>
                 <!-- /.panel .panel-default -->

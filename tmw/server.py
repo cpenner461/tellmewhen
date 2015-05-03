@@ -37,9 +37,6 @@ def index():
         elif check_type == 'string_match' or check_type == 'regex_match':
             value = request.form.get('string_match')
 
-        print check_type
-        print value
-
         check_results = None
         total_checks = None
         index = None
