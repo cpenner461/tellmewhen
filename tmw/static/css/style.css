@@ -23,6 +23,16 @@ header {
   padding-bottom: 15px;
 }
 
+header a {
+  color: white;
+}
+
+header a:hover {
+  color: white !important;
+  opacity: .8;
+  text-decoration: none;
+}
+
 section {
   padding-top: 30px;
   padding-bottom: 30px;
@@ -57,6 +67,10 @@ footer {
 
 .no-events {
   border-top: none !important;
+}
+
+.header-navigation {
+  padding-top: 25px;
 }
 
 .success {
