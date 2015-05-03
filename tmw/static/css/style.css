@@ -148,6 +148,7 @@ a.list-group-item:focus
 .event-builder {
 	margin: 100px 0;
 	text-align: center;
+  padding: 0 10px;
 }
 
 .event-builder li {
