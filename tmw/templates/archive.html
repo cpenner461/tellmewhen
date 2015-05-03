@@ -35,105 +35,140 @@
   <body>
 
   <div class="container">
-    <div class="page-header"><h2>Events Archive</h2></div>
-    <div class="row">
-      <div class="col-sm-2">
-        <ul class="nav nav-pills nav-stacked">
-          <li class="active"><a href="archive.html">Today</a></li>
-          <li><a href="archive.html">Monthly</a></li>
-          <li><a href="archive-year.html">Yearly</a></li>
-        </ul>
-      </div>
-      <div class="col-sm-1">
-        <ul class="nav nav-pills nav-stacked">
-          <li><a href="archive-year.html">Jan</a></li>
-          <li><a href="archive-year.html">Feb</a></li>
-          <li><a href="archive-year.html">Mar</a></li>
-          <li><a href="archive-year.html">Apr</a></li>
-          <li class="active"><a href="/">May</a></li>
-          <li><a href="archive-year.html">Jun</a></li>
-          <li><a href="archive-year.html">July</a></li>
-          <li><a href="archive-year.html">Aug</a></li>
-          <li><a href="archive-year.html">Sep</a></li>
-          <li><a href="archive-year.html">Oct</a></li>
-          <li><a href="archive-year.html">Nov</a></li>
-          <li><a href="archive-year.html">Dec</a></li>
-        </ul>
-      </div>
-      <div class="col-sm-9">
-        <div class="row">
-          <div class="panel panel-default">
-          <!-- Default panel contents -->
-          <div class="panel-heading">May</div>
-          <!-- Table -->
-          <table class="table">
-            <tr>
-              <th>Event URL</th>
-              <th>Shows</th>
-              <th>Created</th>
-              <th>Status</th>
-            </tr>
-            <tr>
-              <td><a href="/">http://www.cnn.com/events</a></td>
-              <td>"breaking news"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://www.github.com</a></td>
-              <td>"new commit"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://tellmewhen.slack.com</a></td>
-              <td>"new message"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://www.cnn.com/events</a></td>
-              <td>"breaking news"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://www.github.com</a></td>
-              <td>"new commit"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://tellmewhen.slack.com</a></td>
-              <td>"new message"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://www.cnn.com/events</a></td>
-              <td>"breaking news"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://www.github.com</a></td>
-              <td>"new commit"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
-            </tr>
-            <tr>
-              <td><a href="/">http://tellmewhen.slack.com</a></td>
-              <td>"new message"</td>
-              <td>2015-05-05 5:43PM</td>
-              <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
-            </tr>
-          </table>
-        </div>
-        </div>
-      </div>
+    <div class="page-header">
+      <h1>Tell Me When</h1>
     </div>
-
-  </div><!-- /.container -->
+    <div class="page-header">
+      <h2>Archive</h2>
+    </div>
+    <div role="tabpanel">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs nav-justified" role="tablist">
+        <li role="presentation" class="active" id="builder-tab"><a href="#builder" aria-controls="builder" role="tab" data-toggle="tab">Builder</a></li>
+        <li role="presentation" id="events-tab"><a href="#events" aria-controls="events" role="tab" data-toggle="tab">Events</a></li>
+        <li role="presentation" is="archive-tab"><a href="#archive" aria-controls="archive" role="tab" data-toggle="tab">Archive</a></li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="builder">
+          Builder
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="events">
+          Events
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="archive">
+          <!-- Page Header -->
+          <div class="page-header"><h2>Events Archive</h2></div>
+          <div class="row">
+            <div class="col-sm-2">
+              <!-- Archive Navigation -->
+              <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="archive.html">Today</a></li>
+                <li><a href="archive.html">Monthly</a></li>
+                <li><a href="archive-year.html">Yearly</a></li>
+              </ul>
+            </div>
+            <div class="col-sm-1">
+              <!-- Month Navigation -->
+              <ul class="nav nav-pills nav-stacked">
+                <li><a href="archive.html">Jan</a></li>
+                <li><a href="archive.html">Feb</a></li>
+                <li><a href="archive.html">Mar</a></li>
+                <li><a href="archive.html">Apr</a></li>
+                <li class="active"><a href="archive.html">May</a></li>
+                <li><a href="archive.html">Jun</a></li>
+                <li><a href="archive.html">July</a></li>
+                <li><a href="archive.html">Aug</a></li>
+                <li><a href="archive.html">Sep</a></li>
+                <li><a href="archive.html">Oct</a></li>
+                <li><a href="archive.html">Nov</a></li>
+                <li><a href="archive.html">Dec</a></li>
+              </ul>
+            </div>
+            <div class="col-sm-9">
+              <div class="row">
+                <!-- Month Panel -->
+                <div class="panel panel-default">
+                  <div class="panel-heading">May</div>
+                  <!-- Events Table -->
+                  <table class="table">
+                    <tr>
+                      <th>Event URL</th>
+                      <th>Shows</th>
+                      <th>Created</th>
+                      <th>Status</th>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://www.cnn.com/events</a></td>
+                      <td>"breaking news"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://www.github.com</a></td>
+                      <td>"new commit"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://tellmewhen.slack.com</a></td>
+                      <td>"new message"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://www.cnn.com/events</a></td>
+                      <td>"breaking news"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://www.github.com</a></td>
+                      <td>"new commit"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://tellmewhen.slack.com</a></td>
+                      <td>"new message"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://www.cnn.com/events</a></td>
+                      <td>"breaking news"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="success fa fa-check-circle" title="Success"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://www.github.com</a></td>
+                      <td>"new commit"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="cancel fa fa-minus-circle" title="Cancelled"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                    <tr>
+                      <td><a href="/">http://tellmewhen.slack.com</a></td>
+                      <td>"new message"</td>
+                      <td>2015-05-05 5:43PM</td>
+                      <td><i class="failure fa fa-times-circle" title="Failure"></i> 2015-05-02 5:43PM</td>
+                    </tr>
+                  </table>
+                </div>
+                <!-- /.panel .panel-default -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.col-sm-9 -->
+          </div>
+          <!-- /.col-sm-9 -->
+        </div>
+        <!-- /.tab-pane .fade -->
+      </div>
+      <!-- /.tab-content -->
+    </div>
+    <!-- /.tabpanel -->
+  </div>
+  <!-- /.container -->
 
   <!-- Le javascript
   ================================================== -->
