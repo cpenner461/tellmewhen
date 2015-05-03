@@ -26,8 +26,8 @@ def index():
         return render_template('index.html')
     else:
         url = request.form.get('url')
-        freq = request.form.get('frequency')
-        num_checks = request.form.get('num_checks')
+        freq = int(request.form.get('frequency'))
+        num_checks = int(request.form.get('num_checks'))
         check_type = request.form.get('check_type')
 
         value = None
@@ -50,7 +50,7 @@ def index():
             callback=_handle_results
         )
 
-        jobs.append({ 'url': url, 'value': value, 'status': "pending" })
+        jobs.append({ 'url': url, 'value': value, 'status': 'pending' })
         return render_template('index.html', jobs=jobs)
 
 @app.route('/_job_status')

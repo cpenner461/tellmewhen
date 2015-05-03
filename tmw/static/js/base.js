@@ -29,12 +29,8 @@ function update_events() {
     $.getJSON("/_job_status", function(data) {
     	size = $('#events td i').size();
         $('#events td i').each(function(index) {
-        	// start from the bottom
-        	// var i = size - index - 1;
-        	var i = index;
-        	console.log(data[i]);	
         	$(this).removeClass(['success', 'failure', 'pending'])
-        		.addClass(data[i]['status']);
+        		.addClass(data[index]['status']);
         });
     });
 }
