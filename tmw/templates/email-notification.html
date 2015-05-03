@@ -11,19 +11,12 @@
         <tr>
         <tr>
           <td align="center" style="text-center;"><h1 style="font-family:
-          helvetica; font-weight: bold; font-size: 24px; color:
-          #666;">{{ event }}</h1></td>
-            <!--
-          <td align="center" style="text-center;"><h1 style="font-family:
-          helvetica; font-weight: bold; font-size: 24px; color:
-          #666;">Hello,
-          <span style="color: #1976D2;">{{url}}</span> {{check_status}} a {{check_type}}
-          that responded with {{check_value}} after {{num_checks}} checks.</h1></td>
+          helvetica; font-weight: normal; font-size: 24px; color:
+          #888;"><span style="color: #1976D2;"><a href="{{ url }}" style="color: #1976D2;">{{ url }}</a></span>
+           had a <span style="color: #333333;">{{ check_type}}</span> that <span style="color: #4CAF50;">{{ check_results }}</span>
+            after <span style="color: #333333;">{{ total_checks }}</span> check</td>
+          <!-- HEX VALUE FOR FAILURE: #E64A19 -->
         </tr>
-            -->
-        <!--<tr>
-          <td align="center" style="text-center;"><h1 style="font-family: helvetica; font-weight: normal; font-size: 24px; color: #666;">Hello, unfortunately your event failed to complete successfully</h1></td>
-        </tr>-->
         <tr>
           <td>&nbsp;</td>
         <tr>
