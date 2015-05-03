@@ -154,7 +154,7 @@ a.list-group-item:focus
 .event-builder li {
 	display: inline-block;
   font-size: 18px;
-  padding-right: 10px;
+  padding-right: 8px;
 }
 
 .event-builder li.string {
@@ -167,6 +167,11 @@ a.list-group-item:focus
 
 .event-builder .event-url {
 	width: 320px;
+}
+
+.event-builder .btn-primary {
+  display: block;
+  margin: 10px;
 }
 
 #builder form {
