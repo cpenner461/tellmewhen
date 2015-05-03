@@ -24,7 +24,7 @@ def index():
     '''The main landing page and UI for tmw'''
 
     if request.method == "GET":
-        return render_template('index.html')
+        return render_template('index.html', jobs=jobs)
     else:
         url = request.form.get('url')
         freq = int(request.form.get('frequency'))
