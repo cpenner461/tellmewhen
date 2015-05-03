@@ -115,3 +115,8 @@ def _generate_csrf_token():
 
 app.jinja_env.globals['csrf_token'] = _generate_csrf_token
 
+#Remove this later
+
+@app.route('/email-notification')
+def the_path():
+   return render_template('email-notification.html')
