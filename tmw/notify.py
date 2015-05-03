@@ -79,7 +79,10 @@ def tell_smtp(event, config):
     to_addr = config.get('recipients')
   
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = '{0} {1}'.format(SUBJECT, event['url'])
+    msg['Subject'] = '{0} ({1}) {2}'.format(SUBJECT, 
+        '+' if event['check_results'] else '-',
+        event['url'],
+        )
     msg['From'] = from_addr
     msg['To'] = to_addr
 
