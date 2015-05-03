@@ -88,15 +88,14 @@ def settings():
 def _set_config_param(conf, service, param, form, number = False, prefix = ""):
     if not conf.get(service):
         conf[service] = {}
-    key = '%s-%s' % (service, param)
-    if not conf[service].get(key):
-        conf[service][key] = None
-    value = form.get(key)
+    if not conf[service].get(param):
+        conf[service][param] = None
+    value = form.get('%s-%s' % (service, param))
     if value:
         value = prefix + value
     if number and value:
         value = int(value)
-    conf[service][key] = value if value else conf[service][key]
+    conf[service][param] = value if value else conf[service][param]
 
 @app.before_request
 def csrf_protect():
