@@ -87,7 +87,7 @@
             {% endif %}
             {% for job in jobs %}
             <tr>
-              <td><a href="/">{{ job['url'] }}</a></td>
+              <td><a href="{{ job['url'] }}" target="_blank">{{ job['url'] }}</a></td>
               <td>"{{ job['value'] }}"</td>
               <td>Time created</td>
               <td><i class="{{ job['status'] }} fa" title="{{ job['status'] | capitalize }}"></i> Time finished</td>
