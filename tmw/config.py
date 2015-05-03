@@ -9,21 +9,21 @@ NUM_PROCESSES = 3
 CFG_FILE = os.path.expanduser("~/.tellmewhen")
 KEYRING_SVC = "tellmewhen"
 
-def _exists():
+def exists():
     """Verify if a config file exists"""
     return os.path.exists(CFG_FILE)
 
 def load_config():
     """Load the entire config"""
-    if _exists():
+    if exists():
         return json.loads(open(CFG_FILE, 'r').read())
 
     return {}
 
 def write_config(config):
-	"""Saves the config"""
-	with open(CFG_FILE, 'w') as f:
-            f.write(json.dumps(config, indent=4))
+    """Saves the config"""
+    with open(CFG_FILE, 'w') as f:
+        f.write(json.dumps(config, indent=4))
 
 def load_channel_config(channel):
     """Load the config file"""

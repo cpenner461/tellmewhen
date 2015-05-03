@@ -1,17 +1,16 @@
 
 from multiprocessing import Pool
 import json
-import os
-import sys
 import time
 
 import click
 import keyring
+from requests.exceptions import ConnectionError
 
-import config
-import core
-from notify import channels, tell
-from server import app
+import tmw.config as config
+import tmw.core as core
+from tmw.notify import channels, tell
+from tmw.server import app
 
 pool = Pool(processes=2)
 
@@ -34,7 +33,7 @@ def cli():
 def tellme(url, check_type, check_value, frequency, num_checks):
     """Check a url to see if it matches"""
 
-    if not config._exists():
+    if not config.exists():
         click.secho('WARNING: No config file found, notifications will not be sent',
                 bg='yellow', fg='black')
 
@@ -63,9 +62,13 @@ def tellme(url, check_type, check_value, frequency, num_checks):
         while not job.ready():
             click.echo('.', nl=False)
             time.sleep(max(frequency, 1))
+
+        # this causes the exception to bubble up
+        if not job.successful():
+            job.get()
        
         # build summary and notify
-        if config._exists():
+        if config.exists():
             event = '{0} had a "{1}" that {2} "{3}" after {4} check{5}'.format(
                     url, check_type,
                     'matched' if check_results else 'did not match',
@@ -78,7 +81,11 @@ def tellme(url, check_type, check_value, frequency, num_checks):
             job.wait()
 
     except core.TMWCoreException, e:
-        click.secho('ERROR: %s' % e.message, fg='red', bold=True)
+        click.secho('TMW ERROR: %s' % e.message, fg='red', bold=True)
+    except ConnectionError, e:
+        click.secho('CONNECTION ERROR: %s' % e.message, fg='red', bold=True)
+    except Exception, e:
+        click.secho('GENERAL ERROR: %s' % e.message, fg='red', bold=True)
 
     # shut down the pool
     pool.close()
@@ -90,14 +97,14 @@ def tellme(url, check_type, check_value, frequency, num_checks):
 def configure_notifications(force):
     """Configure notification settings (e.g. smtp/slack settings)"""
 
-    if config._exists():
+    if config.exists():
         if not force:
             click.echo('Config already exists - try again with --force')
             return
         else:
             click.echo('Replacing existing config')
 
-    config = {}
+    local_config = {}
     keyring_config = {}
     any_channel = False
     click.secho('## Notification Configuration ##', bg='blue', fg='white', bold=True)
@@ -110,7 +117,7 @@ def configure_notifications(force):
 
             any_channel = True
 
-            config[channel] = {}
+            local_config[channel] = {}
 
             click.secho('### {0} ###'.format(channel), bg='blue', fg='white')
             for f in channels[channel]['fields']:
@@ -124,9 +131,9 @@ def configure_notifications(force):
 
                 if f.get('hide_input', False):
                     keyring_config['{0}:{1}'.format(channel, f['name'])] = value
-                    config[channel][f['name']] = None
+                    local_config[channel][f['name']] = None
                 else:
-                    config[channel][f['name']] = value
+                    local_config[channel][f['name']] = value
 
             if keyring_config:
                 click.echo('Saving sensitive data to keyring')
@@ -137,7 +144,7 @@ def configure_notifications(force):
     if any_channel:
         click.echo('Saving config file {0}'.format(config.CFG_FILE))
         with open(config.CFG_FILE, 'w') as f:
-            f.write(json.dumps(config, indent=4))
+            f.write(json.dumps(local_config, indent=4))
     else:
         click.secho('WARNING: No channels enabled - not writing config', 
                 bg='yellow', fg='black')

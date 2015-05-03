@@ -6,7 +6,7 @@ import smtplib
 
 import keyring
 
-from config import KEYRING_SVC, load_config
+from tmw.config import KEYRING_SVC, load_config
 
 def _curr_user():
     uid = os.geteuid()

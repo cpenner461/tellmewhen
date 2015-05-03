@@ -1,13 +1,10 @@
 
 import logging
-import os
-import sys
 import time
 import re
 
 import requests
 
-#logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 class TMWCoreException(Exception):
@@ -92,8 +89,6 @@ def _check_code(response, expected_code):
     """Check the response code from a response object
     return True/False
     """
-    logger.debug('expected_code: %s', expected_code)
-    logger.debug('status_code: %s', response.status_code)
     return response.status_code == expected_code
 
 def _check_contains(response, match_string):
