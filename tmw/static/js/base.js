@@ -42,4 +42,4 @@ function update_events() {
   });
 }
 
-$(".alert").slideDown();
+$(".alert").slideDown( 400 ).delay( 1000 ).slideUp( 400 );

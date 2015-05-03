@@ -9,19 +9,19 @@
       <div class="form-group">
           <h2><i class="fa fa-envelope"></i> SMTP</h2>
           <label for="smtp-username">Username:</label>
-          <input type="text" name="smtp-username" class="form-control">
+          <input type="text" name="smtp-username" class="form-control" value="{{ settings['smtp-username'] or '' }}">
           <br>
           <label for="smtp-sender">Sender:</label>
-          <input type="text" name="smtp-sender" class="form-control">
+          <input type="text" name="smtp-sender" class="form-control" value="{{ settings['smtp-sender'] or '' }}">
           <br>
           <label for="smtp-recipients">Recipients:</label>
-          <input type="text" name="smtp-recipients" class="form-control">
+          <input type="text" name="smtp-recipients" class="form-control" value="{{ settings['smtp-recipients'] or '' }}">
           <br>
           <label for="smtp-server">Server:</label>
-          <input type="text" name="smtp-server" class="form-control">
+          <input type="text" name="smtp-server" class="form-control" value="{{ settings['smtp-server'] or '' }}">
           <br>
           <label for="smtp-port">Port:</label>
-          <input type="number" name="smtp-port" class="form-control" value="465">
+          <input type="number" name="smtp-port" class="form-control" value="{{ settings['smtp-port'] or 465 }}">
           <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
           <br>
       </div>
@@ -30,10 +30,10 @@
       <div class="form-group">
           <h2><i class="fa fa-slack"></i> Slack</h2>
           <label for="slack-username">Username:</label>
-          <input type="text" name="slack-username" class="form-control">
+          <input type="text" name="slack-username" class="form-control" value="{{ settings['slack-username'] or '' }}">
           <br>
           <label for="slack-channel">Channel:</label>
-          <input type="text" name="slack-channel" class="form-control">
+          <input type="text" name="slack-channel" class="form-control" value="{{ settings['slack-channel'] or '' }}">
           <br>
       </div>
     </div>

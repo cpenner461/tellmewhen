@@ -52,7 +52,7 @@ def index():
         )
 
         jobs.append({ 'url': url, 'value': value, 'status': 'pending' })
-        return render_template('index.html', jobs=jobs)
+        return render_template('index.html', jobs=jobs, success=True)
 
 @app.route('/_job_status')
 def _job_status():
@@ -82,8 +82,21 @@ def settings():
 
         config.write_config(conf)
         status = "success"
+    else:
+        conf = config.load_config()
 
-    return render_template('settings.html', status=status)
+        settings = {}
+
+        settings['smtp-username'] = _get_config_param(conf, 'smtp', 'username')
+        settings['smtp-sender'] = _get_config_param(conf, 'smtp', 'sender')
+        settings['smtp-recipients'] = _get_config_param(conf, 'smtp', 'recipients')
+        settings['smtp-server'] = _get_config_param(conf, 'smtp', 'server')
+        settings['smtp-port'] = _get_config_param(conf, 'smtp', 'port')
+
+        settings['slack-username'] = _get_config_param(conf, 'slack', 'username')
+        settings['slack-channel'] = _get_config_param(conf, 'slack', 'channel')
+
+    return render_template('settings.html', status=status, settings=settings)
 
 def _set_config_param(conf, service, param, form, number = False, prefix = ""):
     if not conf.get(service):
@@ -96,6 +109,13 @@ def _set_config_param(conf, service, param, form, number = False, prefix = ""):
     if number and value:
         value = int(value)
     conf[service][param] = value if value else conf[service][param]
+
+def _get_config_param(conf, service, param):
+    if not conf.get(service):
+        conf[service] = {}
+    if not conf[service].get(param):
+        conf[service][param] = None
+    return conf[service][param]
 
 @app.before_request
 def csrf_protect():
