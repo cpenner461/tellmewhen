@@ -41,3 +41,5 @@ function update_events() {
     });
   });
 }
+
+$(".alert").slideDown();
