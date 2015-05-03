@@ -54,9 +54,10 @@ def tellme(url, check_type, check_value, frequency, num_checks):
 
         check_results = None
         total_checks = None
+        i = None
 
         def _handle_results(results):
-            (check_results, total_checks) = results
+            (check_results, total_checks, i) = results
             if check_results:
                 click.secho('YES!', bg='green', fg='white')
             else:
@@ -75,7 +76,7 @@ def tellme(url, check_type, check_value, frequency, num_checks):
             time.sleep(.1)
 
         # this causes the exception to bubble up
-        (check_results, total_checks) = job.get()
+        (check_results, total_checks, i) = job.get()
        
         # build summary and notify
         if config.exists():

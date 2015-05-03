@@ -16,7 +16,7 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-12">
-                <form action="/tellme" method="POST">
+                <form action="/" method="POST">
                   <ul class="event-builder">
                     <li>
                       Tell me when
@@ -76,20 +76,20 @@
           <div class="page-header"><h2>Events</h2></div>
           <!-- Events Table -->
           <table class="table">
-            {% if events %}
+            {% if jobs %}
             <tr>
-              <th>Event URL</th>
+              <th>job URL</th>
               <th>Shows</th>
               <th>Created</th>
               <th>Status</th>
             </tr>
             {% endif %}
-            {% for event in events %}
+            {% for job in jobs %}
             <tr>
-              <td><a href="/">{{ event['url'] }}</a></td>
-              <td>"{{ event['value'] }}"</td>
+              <td><a href="/">{{ job['url'] }}</a></td>
+              <td>"{{ job['value'] }}"</td>
               <td>Time created</td>
-              <td><i class="success fa fa-check-circle" title="{{ Success if event['status'] else Failure }}"></i> Time finished</td>
+              <td><i class="{{ job['status'] }} fa fa-check-circle" title="{{ job['status'] | capitalize }}"></i> Time finished</td>
             </tr>
             {% else %}
               <td colspan="4" class="no-events">

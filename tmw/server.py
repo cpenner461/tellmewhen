@@ -9,7 +9,12 @@ from flask import render_template, request
 import tmw.config as config
 import tmw.core as core
 
+from multiprocessing import Pool
+
 app = Flask(__name__)
+
+pool = Pool(processes=2)
+jobs = []
 
 @app.route('/', methods = ["POST", "GET"])
 def index():
@@ -19,20 +24,32 @@ def index():
         return render_template('index.html')
     else:
         url = request.form.get('url')
+        freq = request.form.get('frequency')
+        num_checks = request.form.get('num_checks')
         check_type = request.form.get('check_type')
+
         value = None
         if check_type == 'status_code':
             value = request.form.get('status_code')
         elif check_type == 'string_match' or check_type == 'regex_match':
             value = request.form.get('string_match')
 
-        status = core.check_once(url, check_type, value)
+        check_results = None
+        total_checks = None
+        index = None
 
-        event_list = [
-            { 'url': url, 'check_type': check_type, 'value': value, 'status': status  }
-        ]
+        def _handle_results(results):
+            (check_results, total_checks, index) = results
+            jobs[index]['status'] = "success" if check_results else "failure"
 
-        return render_template('index.html', events=event_list)
+        job = pool.apply_async(
+            core.check_until,
+            (url, check_type, value, freq, num_checks, len(jobs)),
+            callback=_handle_results
+        )
+
+        jobs.append({ 'url': url, 'value': value, 'status': "pending" })
+        return render_template('index.html', jobs=jobs)
 
 
 @app.route('/hello')

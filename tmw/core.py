@@ -22,7 +22,7 @@ event_types = [
     'regex_match',
 ]
 
-def check_until(url, check_type, check_value, frequency, num_checks):
+def check_until(url, check_type, check_value, frequency, num_checks, index = None):
     """Check url until the specified condition is met"""
 
     checks_done = 0
@@ -34,11 +34,11 @@ def check_until(url, check_type, check_value, frequency, num_checks):
         results = check_once(url, check_type, check_value)
 
         if results or checks_done == num_checks:
-            return (results, checks_done)
+            return (results, checks_done, index)
 
         time.sleep(frequency)
 
-    return (results, checks_done)
+    return (results, checks_done, index)
 
 def check_once(url, check_type, check_value):
     """Check a url once"""
