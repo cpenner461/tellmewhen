@@ -61,6 +61,7 @@ def hello():
 def settings():
     '''Settings page'''
 
+    status = None
     if request.method == "POST":
         f = request.form
 
@@ -74,8 +75,9 @@ def settings():
         _set_config_param(conf, 'slack', 'channel', f, prefix = "#")
 
         config.write_config(conf)
+        status = "success"
 
-    return render_template('settings.html')
+    return render_template('settings.html', status=status)
 
 def _set_config_param(conf, service, param, form, number = False, prefix = ""):
     if not conf.get(service):

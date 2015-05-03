@@ -37,7 +37,9 @@
       </div>
     </div>
   </div>
-  <div class="alert alert-success" role="alert">Settings saved!</div>
+  {% if status == 'success' %}
+    <div class="alert alert-success" role="alert">Settings saved!</div>
+  {% endif %}
   <input type="submit" class="btn btn-primary" Value="Done">
   </form>
 </div>
