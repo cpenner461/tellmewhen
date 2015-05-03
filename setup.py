@@ -14,7 +14,8 @@ setup(
         'Click==4.0',
         'Flask==0.10.1',
         'Requests==2.6.2',
-        'Keyring==5.3'
+        'Keyring==5.3',
+        'Flask-Session==0.1.1'
     ],
     entry_points='''
         [console_scripts]
