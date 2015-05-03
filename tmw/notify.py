@@ -1,3 +1,7 @@
+'''
+Handle all notifications/telling for when events have met the specified
+criteria.
+'''
 
 from collections import defaultdict
 import os
@@ -36,7 +40,7 @@ for n in (smtp_config, slack_config):
     channels[n['name']] = n
 
 def tell(event):
-    """Tell about an event"""
+    """Tell all configured channels about an event"""
 
     for channel in load_config():
         if channel == 'smtp':
@@ -48,7 +52,7 @@ def tell(event):
             tell_slack(event, load_config()['slack'])
 
 def tell_smtp(event, config):
-    """Send a notification via SMTP"""
+    """Tell smtp about an event"""
 
     from_addr = config.get('sender')
     to_addr = config.get('recipients')
@@ -66,34 +70,3 @@ def tell_slack(event, config):
     """Tell slack about an event"""
     print("NO SLACK!")
 
-'''
-# having problems getting the email libs to work with the multipart stuff
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-def _tell_smtp(event, config):
-    """Send a notification via SMTP"""
-    
-    msg = MIMEMultipart('alternative')
-
-    from_addr = config.get('sender')
-    to_addr = config.get('recipients', '').split(',')
-    msg['From'] = from_addr
-    msg['To'] = to_addr
-    msg['Subject'] = '[tellmewhen]'
-    text = event
-    html = '<html><head></head><body><h1>tellmewhen</h1><p>{0}</p></body></html>'.format(
-        event)
-
-    part1 = MIMEText(text, 'plain')
-    part2 = MIMEText(html, 'html')
-
-    msg.attach(part1)
-    msg.attach(part2)
-
-    import pdb; pdb.set_trace()
-    print("msg:\n%s" % msg.as_string())
-
-    s = smtplib.SMTP(config.get('server'))
-    s.sendmail(from_addr, to_addr, msg.as_string())
-    s.quit()
-'''

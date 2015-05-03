@@ -1,4 +1,8 @@
+'''
 
+This is where the core functionality of checking URLs and deciding if they
+match the specified conditions live.  
+'''
 import logging
 import time
 import re
@@ -8,6 +12,7 @@ import requests
 logger = logging.getLogger(__name__)
 
 class TMWCoreException(Exception):
+    """Generic TMW exception"""
     pass
 
 # types of checks we can do for events

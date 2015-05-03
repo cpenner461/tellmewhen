@@ -1,4 +1,8 @@
+'''
 
+This is the command line interface to tmw.  Usage is self documenting via built
+in help (e.g. `tmw --help`).
+'''
 from multiprocessing import Pool
 import json
 import time
@@ -114,11 +118,8 @@ def configure_notifications(force):
             type=bool)
         
         if enable:
-
             any_channel = True
-
             local_config[channel] = {}
-
             click.secho('### {0} ###'.format(channel), bg='blue', fg='white')
             for f in channels[channel]['fields']:
 
@@ -140,7 +141,6 @@ def configure_notifications(force):
                 for k,v in keyring_config.iteritems():
                     keyring.set_password(config.KEYRING_SVC, k, v)
 
-
     if any_channel:
         click.echo('Saving config file {0}'.format(config.CFG_FILE))
         with open(config.CFG_FILE, 'w') as f:
@@ -148,17 +148,6 @@ def configure_notifications(force):
     else:
         click.secho('WARNING: No channels enabled - not writing config', 
                 bg='yellow', fg='black')
-
-
-@cli.command()
-def hello():
-    """A basic hello world."""
-    click.echo('Hello World Again!')
-
-@cli.command()
-def bye():
-    """The opposite of hello world."""
-    click.echo('Goodbye cruel world.......')
 
 @cli.command()
 def serve():
