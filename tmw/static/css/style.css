@@ -35,8 +35,7 @@ header a:hover {
 
 section {
   padding-top: 30px;
-  padding-bottom: 30px;
-  background-color: #FFF;
+  background-color: #F4F9FD;
 }
 
 footer {
@@ -47,6 +46,15 @@ footer {
 }
 
 /* Custom */
+
+.container-fluid.section {
+	padding:0;
+}
+
+.tab-content {
+	background-color:#fff;
+	padding:30px 40px 0 40px;
+}
 
 .logo {
   color: #FFF;
@@ -107,9 +115,23 @@ a.list-group-item:focus
   background-color: #E8F2FB;
 }
 
+.nav.nav-tabs.nav-justified li.active>a {
+	border-top-color:#85c3fa;
+	border-right-color:#85c3fa;
+	border-left-color:#85c3fa;
+	border-bottom-color:transparent;
+	border-radius:0;
+}
+
+.nav.nav-tabs.nav-justified li>a {
+	border-bottom-color:#85c3fa;
+	border-radius:0;
+}
+
 .nav-tabs li a:hover,
 .nav-pills li a:hover {
-  background: #F0F5F9;
+  background: #fff;
+  border-color:transparent;
 }
 
 .panel-default>.panel-heading {
@@ -177,7 +199,7 @@ a.list-group-item:focus
 #builder form {
 	background-color: #F4F9FD;
 	display: block;
-	margin-top: 30px;
+	margin-top: 10px;
 	padding: 1px 0;
 }
 
