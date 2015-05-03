@@ -10,7 +10,7 @@
     <link href="../static/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
-        padding-top: 60px;
+        padding-top: 120px;
         padding-bottom: 60px;
       }
     </style>
@@ -27,21 +27,29 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="/">Tell Me When</a>
-        </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <h1 class="logo"><a href="/">Tell Me When</a></h1>
+              </div>
+              <div class="col-sm-6 text-right">
+              </div>
+            </div>
+          </div>
       </div>
     </div>
     <div class="container">
       <div class="row marketing-banner">
         <div class="col-md-12">
-          <h1>Tell Me When</h1>
-          <p>Even want to know when your website is down or get an alert when a product updates on Amazon? Maybe you don't want to watch Hadoop jobs finish and just go outside? Here's a contribution from your friendly hackers at #HT7. </p>
+          <p>Ever want to know when your website is down? Get an alert when a product updates on Amazon? Maybe you don't want to watch Hadoop jobs finish, and just go outside? Here's a contribution from your friendly hackers at #HT7. </p>
         </div>
       </div>
 
       <div class="git-told">
-       <span class="escape"> escape the command line<img src="../static/img/cursor.gif" /> </span>
-       <a class="btn btn-large btn-warning" href="https://github.com/cpenner461/tellmewhen"> Git Told! </a>
+         <span class="escape"> escape the command line<img src="../static/img/cursor.gif" /> </span>
+         <a class="btn btn-large btn-success" href="https://github.com/cpenner461/tellmewhen"> Git Told! </a>
+         <p class="integrations">Now Serving:<br />
+           <a href="https://slack.com/"><img src="../static/img/slack-logo.png" class="integration" /></a>
+         </p>
       </div>
     </div> 
 
@@ -56,14 +64,21 @@
               <li>Self-Defined API/Hadoop (console)</li>
             </ul>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-2">
+            <p>Now Telling:</p>
+              <ul>
+                <li>Email</li>
+                <li>Slack</li>
+              </ul>
+            </div>
+            <div class="col-sm-2">
             <p>Future Tells?:</p>
             <ul>
               <li>SMS</li>
               <li>Hardware Alarm</li>
             </ul>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-2">
             <p>Future Whens?:</p>
               <ul>
                 <li>Multiple Conditions</li>
