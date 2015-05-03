@@ -1,4 +1,4 @@
-![alt tag](https://raw.githubusercontent.com/cpenner461/tellmewhen/gh-pages/img/logo.png)
+![alt tag](https://raw.githubusercontent.com/cpenner461/tellmewhen/gh-pages/img/readme-logo.png)
 
 ## Overview
 Use of [virtualenv]() is highly recommended.  You may also want to use
