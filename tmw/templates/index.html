@@ -64,7 +64,7 @@
                     </li>
                     <li>time</li>
                     <li>
-                      <button class="btn btn-primary" type="submit">Go</button>
+                      <button class="btn btn-success" type="submit">Go</button>
                     </li>
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                   </ul>
@@ -78,7 +78,7 @@
           <table class="table">
             {% if jobs %}
             <tr>
-              <th>job URL</th>
+              <th>Job URL</th>
               <th>Shows</th>
               <th>Created</th>
               <th>Status</th>
@@ -89,7 +89,7 @@
               <td><a href="/">{{ job['url'] }}</a></td>
               <td>"{{ job['value'] }}"</td>
               <td>Time created</td>
-              <td><i class="{{ job['status'] }} fa fa-check-circle" title="{{ job['status'] | capitalize }}"></i> Time finished</td>
+              <td><i class="{{ job['status'] }} fa" title="{{ job['status'] | capitalize }}"></i> Time finished</td>
             </tr>
             {% else %}
               <td colspan="4" class="no-events">

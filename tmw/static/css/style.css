@@ -84,13 +84,41 @@ footer {
 .success {
   color: #4CAF50;
 }
+.success:before {
+	content: "\f058";
+}
 
 .failure {
-  color: #D32F2F;
+	color: #D32F2F;
+}
+.failure:before {
+	content: "\f057";
+}
+
+.pending {
+	color:orange;
+}
+.pending:before {
+  content: "\f021";
+  -webkit-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
+}
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
 }
 
 .cancel {
-  color: #FFA000;
+  color: #ccc;
+}
+.cancel:before {
+	content: "\f056";
 }
 
 /* Bootstrap Overrides */
