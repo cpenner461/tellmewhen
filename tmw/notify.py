@@ -35,19 +35,19 @@ channels = defaultdict(list)
 for n in (smtp_config, slack_config):
     channels[n['name']] = n
 
-
-def notify(event):
-    """Notify of an event"""
+def tell(event):
+    """Tell about an event"""
 
     for channel in load_config():
         if channel == 'smtp':
-            print('smtp notify')
-            smtp_send(event, load_config()['smtp'])
+            print('[smtp] tell')
+            tell_smtp(event, load_config()['smtp'])
         
         if channel == 'slack':
-            print('no slack yet')
+            print('[slack] tell')
+            tell_slack(event, load_config()['slack'])
 
-def smtp_send(event, config):
+def tell_smtp(event, config):
     """Send a notification via SMTP"""
 
     from_addr = config.get('sender')
@@ -62,11 +62,15 @@ def smtp_send(event, config):
     s.sendmail(from_addr, to_addr, msg)
     s.quit()
 
+def tell_slack(event, config):
+    """Tell slack about an event"""
+    print("NO SLACK!")
+
 '''
 # having problems getting the email libs to work with the multipart stuff
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-def _smtp_send(event, config):
+def _tell_smtp(event, config):
     """Send a notification via SMTP"""
     
     msg = MIMEMultipart('alternative')

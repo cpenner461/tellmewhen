@@ -1,5 +1,6 @@
 
 import logging
+import os
 import sys
 import time
 import re
@@ -33,13 +34,8 @@ def check_until(url, check_type, check_value, frequency, num_checks):
         if results or checks_done == num_checks:
             return (results, checks_done)
 
-        sys.stdout.write('.')
-        sys.stdout.flush()
-        
         time.sleep(frequency)
 
-    sys.stdout.write('\n')
-    sys.stdout.flush()
     return (results, checks_done)
 
 def check_once(url, check_type, check_value):

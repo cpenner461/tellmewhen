@@ -1,14 +1,19 @@
 
+from multiprocessing import Pool
 import json
 import os
+import sys
+import time
 
 import click
 import keyring
 
 import config
 import core
-from notify import channels, notify
+from notify import channels, tell
 from server import app
+
+pool = Pool(processes=2)
 
 @click.group()
 def cli():
@@ -39,26 +44,45 @@ def tellme(url, check_type, check_value, frequency, num_checks):
         click.style(check_value, bg='blue', fg='white')))
 
     try:
-        (check_results, total_checks) = core.check_until(url, check_type, check_value,
-                frequency, num_checks)
 
-        if check_results:
-            click.secho('It does!', bg='green', fg='white')
-        else:
-            click.secho('It does NOT!', bg='red', fg='white')
+        check_results = None
+        total_checks = None
 
+        def _handle_results(results):
+            (check_results, total_checks) = results
+            if check_results:
+                click.secho('It does!', bg='green', fg='white')
+            else:
+                click.secho('It does NOT!', bg='red', fg='white')
+
+        job = pool.apply_async(
+            core.check_until, 
+            (url, check_type, check_value, frequency, num_checks),
+            callback=_handle_results)
+
+        while not job.ready():
+            click.echo('.', nl=False)
+            time.sleep(max(frequency, 1))
+       
+        # build summary and notify
         if config._exists():
             event = '{0} had a "{1}" that {2} "{3}" after {4} check{5}'.format(
                     url, check_type,
                     'matched' if check_results else 'did not match',
                     check_value, total_checks,
                     's' if total_checks > 1 else '')
-            
-            click.echo('Sending notifications ...')
-            notify(event)
+
+            click.echo('Queuing notifications')
+            job = pool.apply_async(tell, (event,))
+            click.echo('Waiting for notifications to complete')
+            job.wait()
 
     except core.TMWCoreException, e:
         click.secho('ERROR: %s' % e.message, fg='red', bold=True)
+
+    # shut down the pool
+    pool.close()
+    pool.join()
 
 @cli.command()
 @click.option('--force', is_flag=True,
