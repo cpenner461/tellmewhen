@@ -101,6 +101,13 @@ def _do_check(url, check_type, check_value, frequency, num_checks):
                     check_value, total_checks,
                     's' if total_checks > 1 else '')
 
+            event = {
+                    "url": url,
+                    "check_type": check_type,
+                    "check_results": check_results,
+                    "check_value": check_value,
+                    "total_checks": total_checks
+            }
             #job = pool.apply_async(tell, (event,))
             #click.echo('Telling your channels')
             #job.wait()

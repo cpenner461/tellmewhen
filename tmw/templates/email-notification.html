@@ -10,11 +10,22 @@
           <td>&nbsp;</td>
         <tr>
         <tr>
-          <td align="center" style="text-center;"><h1 style="font-family:
+          <td><h1 style="font-family:
           helvetica; font-weight: normal; font-size: 24px; color:
-          #888;"><span style="color: #1976D2;"><a href="{{ url }}" style="color: #1976D2;">{{ url }}</a></span>
-           had a <span style="color: #333333;">{{ check_type}}</span> that <span style="color: #4CAF50;">{{ check_results }}</span>
-            after <span style="color: #333333;">{{ total_checks }}</span> check</td>
+          #888;">
+          <span style="color: #1976D2;">
+              <a href="{{ url }}" style="color: #1976D2;">{{ url }}</a>
+          </span>
+           had a 
+           <span style="color: #333333;">{{ check_type }}</span> 
+           that
+           <span style="color: {% if check_results %}#4CAF50; {% else %}#E64A19 {% endif %}">
+           {% if check_results %}did{% else %}did not{% endif %}
+           {% if check_type == 'status_code' %}return{% else %}match{% endif %}</span>
+           <span style="color: #333333">{{ check_value }}</span>
+           after 
+           <span style="color: #333333;">{{ total_checks }}</span> 
+           check{% if total_checks == 1 %}{% else %}s{% endif %}</h1></td>
           <!-- HEX VALUE FOR FAILURE: #E64A19 -->
         </tr>
         <tr>
