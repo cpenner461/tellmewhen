@@ -22,6 +22,7 @@
           <br>
           <label for="smtp-port">Port:</label>
           <input type="number" name="smtp-port" class="form-control">
+          <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
           <br>
       </div>
     </div>

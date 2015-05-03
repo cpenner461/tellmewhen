@@ -25,8 +25,6 @@ event_types = [
 def check_until(url, check_type, check_value, frequency, num_checks, index = None):
     """Check url until the specified condition is met"""
 
-    print "inside check_until"
-
     checks_done = 0
     results = False
 

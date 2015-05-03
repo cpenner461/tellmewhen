@@ -4,13 +4,14 @@ cli.
 '''
 
 from flask import Flask
-from flask import render_template, request
+from flask import render_template, request, session
+from flask.ext.session import Session
 
 import tmw.config as config
 import tmw.core as core
 
 import json
-
+from uuid import uuid4
 from multiprocessing import Pool
 
 app = Flask(__name__)
@@ -96,4 +97,18 @@ def _set_config_param(conf, service, param, form, number = False, prefix = ""):
     if number and value:
         value = int(value)
     conf[service][key] = value if value else conf[service][key]
+
+@app.before_request
+def csrf_protect():
+    if request.method == "POST":
+        token = session.pop('_csrf_token', None)
+        if not token or unicode(token) != request.form.get('_csrf_token'):
+            abort(403)
+
+def _generate_csrf_token():
+    if '_csrf_token' not in session:
+        session['_csrf_token'] = uuid4()
+    return session['_csrf_token']
+
+app.jinja_env.globals['csrf_token'] = _generate_csrf_token
 

@@ -9,6 +9,7 @@ import json
 from multiprocessing import Pool
 import sys
 import time
+import os
 
 import click
 import keyring
@@ -161,6 +162,7 @@ def configure_notifications(force):
 @cli.command()
 def serve():
     """Run the flask server."""
+    app.secret_key = os.urandom(24)
     app.run()
 
 @cli.command()
