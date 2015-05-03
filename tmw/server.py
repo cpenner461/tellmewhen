@@ -52,7 +52,7 @@ def index():
         )
 
         jobs.append({ 'url': url, 'value': value, 'status': 'pending' })
-        return render_template('index.html', jobs=jobs)
+        return render_template('index.html', jobs=jobs, success=True)
 
 @app.route('/_job_status')
 def _job_status():
