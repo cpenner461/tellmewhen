@@ -111,7 +111,7 @@
               <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="archive.html">Today</a></li>
                 <li><a href="archive.html">Monthly</a></li>
-                <li><a href="archive-year.html">Yearly</a></li>
+                <li><a href="archive-yearly.html">Yearly</a></li>
               </ul>
             </div>
             <div class="col-sm-1">
@@ -224,6 +224,32 @@
       <!-- /.tab-content -->
     </div>
     <!-- /.tabpanel -->
+  <h3>Settings:</h3>
+  <h2>SMTP</h2>
+  <form action="/settings" method="post">
+    <label for="smtp-username">username:</label>
+    <input type="text" name="smtp-username">
+    <br>
+    <label for="smtp-sender">sender:</label>
+    <input type="text" name="smtp-sender">
+    <br>
+    <label for="smtp-recipients">recipients:</label>
+    <input type="text" name="smtp-recipients">
+    <br>
+    <label for="smtp-server">server:</label>
+    <input type="text" name="smtp-server">
+    <br>
+    <label for="smtp-port">port:</label>
+    <input type="number" name="smtp-port">
+    <h2>Slack</h2>
+    <label for="slack-username">username:</label>
+    <input type="text" name="slack-username">
+    <br>
+    <label for="slack-channel">channel:</label>
+    <input type="text" name="slack-channel">
+    <br>
+    <input type="submit">
+  </form>
   </div>
   <!-- /.container -->
   </section>
