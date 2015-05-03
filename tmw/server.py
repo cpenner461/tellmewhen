@@ -1,7 +1,10 @@
+
 from flask import Flask
-from flask import render_template, request, redirect
-import config
-import core
+from flask import render_template, request
+
+import tmw.config as config
+import tmw.core as core
+
 app = Flask(__name__)
 
 @app.route('/', methods = ["POST", "GET"])
@@ -10,17 +13,17 @@ def index():
         return render_template('index.html')
     else:
         url = request.form.get('url')
-        type = request.form.get('check_type')
+        check_type = request.form.get('check_type')
         value = None
-        if type == 'status_code':
+        if check_type == 'status_code':
             value = request.form.get('status_code')
-        elif type == 'string_match' or type == 'regex_match':
+        elif check_type == 'string_match' or check_type == 'regex_match':
             value = request.form.get('string_match')
 
-        status = core.check_once(url, type, value)
+        status = core.check_once(url, check_type, value)
 
         event_list = [
-            { 'url': url, 'check_type': type, 'value': value, 'status': status  }
+            { 'url': url, 'check_type': check_type, 'value': value, 'status': status  }
         ]
 
         return render_template('index.html', events=event_list)
