@@ -81,6 +81,7 @@ def settings():
         _set_config_param(conf, 'slack', 'channel', f, prefix = "#")
 
         config.write_config(conf)
+        settings = config
         status = "success"
     else:
         conf = config.load_config()
