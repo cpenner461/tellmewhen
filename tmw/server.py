@@ -5,7 +5,6 @@ cli.
 
 from flask import Flask
 from flask import render_template, request, session
-from flask.ext.session import Session
 
 import tmw.config as config
 import tmw.core as core
@@ -122,7 +121,7 @@ def _get_config_param(conf, service, param):
 def csrf_protect():
     if request.method == "POST":
         token = session.pop('_csrf_token', None)
-        if not token or unicode(token) != request.form.get('_csrf_token'):
+        if not token or str(token) != request.form.get('_csrf_token'):
             abort(403)
 
 def _generate_csrf_token():

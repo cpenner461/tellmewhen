@@ -30,19 +30,19 @@ def _curr_user():
 smtp_config = {
     'name': 'smtp',
     'fields': [
-        { 'name': 'server', 'type': unicode, 'default': 'localhost', },
+        { 'name': 'server', 'type': str, 'default': 'localhost', },
         { 'name': 'port', 'type': int, 'default': 465, },
-        { 'name': 'username', 'type': unicode, 'default': _curr_user(), },
-        { 'name': 'password', 'type': unicode, 'default': None, 'hide_input': True, },
-        { 'name': 'sender', 'type': unicode, 'default': None, },
-        { 'name': 'recipients', 'type': unicode, 'default': None, },
+        { 'name': 'username', 'type': str, 'default': _curr_user(), },
+        { 'name': 'password', 'type': str, 'default': None, 'hide_input': True, },
+        { 'name': 'sender', 'type': str, 'default': None, },
+        { 'name': 'recipients', 'type': str, 'default': None, },
     ]
 }
 slack_config = {
     'name': 'slack',
     'fields': [
-        { 'name': 'webhook_url', 'type': unicode, 'default': None, },
-        { 'name': 'channel', 'type': unicode, 'default': '#tellmewhen', },
+        { 'name': 'webhook_url', 'type': str, 'default': None, },
+        { 'name': 'channel', 'type': str, 'default': '#tellmewhen', },
     ]
 }
 channels = defaultdict(list)

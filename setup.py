@@ -11,12 +11,11 @@ setup(
     classifiers=[],
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     install_requires=[
-        'Click==4.0',
-        'Flask==0.10.1',
-        'Requests==2.6.2',
-        'Keyring==5.3',
-        'Flask-Session==0.1.1',
-        'Jinja2==2.7.2',
+        'Click==7.0',
+        'Flask==1.1.1',
+        'Requests==2.22.0',
+        'Keyring==19.2.0',
+        'Jinja2==2.10.3',
     ],
     entry_points='''
         [console_scripts]
