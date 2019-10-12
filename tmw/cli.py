@@ -85,7 +85,7 @@ def _do_check(url, check_type, check_value, frequency, num_checks):
 
         spinner = itertools.cycle(['-', '/', '|', '\\'])
         while not job.ready():
-            sys.stdout.write(spinner.next())  # write the next character
+            sys.stdout.write(next(spinner))  # write the next character
             sys.stdout.flush()                # flush stdout buffer (actual character display)
             sys.stdout.write('\b')            # erase the last written char
             time.sleep(.1)
@@ -113,11 +113,11 @@ def _do_check(url, check_type, check_value, frequency, num_checks):
             #job.wait()
             tell(event)
 
-    except core.TMWCoreException, e:
+    except core.TMWCoreException:
         click.secho('TMW ERROR: %s' % e.message, fg='red', bold=True)
-    except ConnectionError, e:
+    except ConnectionError:
         click.secho('CONNECTION ERROR: %s' % e.message, fg='red', bold=True)
-    except Exception, e:
+    except Exception:
         click.secho('GENERAL ERROR: %s' % e.message, fg='red', bold=True)
 
     # shut down the pool
@@ -151,13 +151,13 @@ def page_returns(url, response_code, frequency, num_checks):
 
     try:
         response_code = int(response_code)
-    except ValueError, e:
+    except ValueError:
         click.secho('ERROR: response_code must be an int', fg='red', bold=True)
         return 1
 
     check_type = 'status_code'
 
-    _output_summary(url, check_type, unicode(response_code), frequency, num_checks)
+    _output_summary(url, check_type, str(response_code), frequency, num_checks)
     _do_check(url, check_type, response_code, frequency, num_checks)
 
     click.echo()
