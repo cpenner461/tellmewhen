@@ -15,7 +15,7 @@ setup(
         'Flask==1.1.1',
         'Requests==2.22.0',
         'Keyring==19.2.0',
-        'Jinja2==2.10.3',
+        'Jinja2==2.11.3',
     ],
     entry_points='''
         [console_scripts]
